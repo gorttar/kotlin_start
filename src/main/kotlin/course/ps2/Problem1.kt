@@ -76,8 +76,8 @@ fun Double.round(decimals: Int): Double = 10.0.pow(decimals).let {
  * запусти, чтобы протестировать функцию [payMinimalAYear]
  */
 fun main() = (sequenceOf(
-    PayMinimalCase(42.0, 0.2, 0.04, "Remaining balance: 31.38"),
-    PayMinimalCase(484.0, 0.2, 0.04, "Remaining balance: 361.61")
+        PayMinimalCase(42.0, 0.2, 0.04, "Remaining balance: 31.38"),
+        PayMinimalCase(484.0, 0.2, 0.04, "Remaining balance: 361.61")
 ) + payMinimalCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
     args passTo { payMinimalAYear(balance, annualInterestRate, monthlyPaymentRate) } shouldBeEqualTo expected
 }

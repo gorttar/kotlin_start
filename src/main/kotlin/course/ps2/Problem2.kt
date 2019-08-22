@@ -56,9 +56,9 @@ fun payInAYearExhaustive(balance: Double, annualInterestRate: Double): String {
  * запусти, чтобы протестировать функцию [payMinimalAYear]
  */
 fun main() = (sequenceOf(
-    PayInAYearCase(3329.0, 0.2, "Lowest Payment: 310"),
-    PayInAYearCase(3926.0, 0.2, "Lowest Payment: 360"),
-    PayInAYearCase(4773.0, 0.2, "Lowest Payment: 440")
+        PayInAYearCase(3329.0, 0.2, "Lowest Payment: 310"),
+        PayInAYearCase(3926.0, 0.2, "Lowest Payment: 360"),
+        PayInAYearCase(4773.0, 0.2, "Lowest Payment: 440")
 ) + exhaustiveCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
     args passTo { payInAYearExhaustive(balance, annualInterestRate) } shouldBeEqualTo expected
 }
