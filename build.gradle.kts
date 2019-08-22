@@ -39,7 +39,7 @@ tasks {
 
     kotlinCompile {
         jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-XXLanguage:+NewInference")
+//        freeCompilerArgs = listOf("-XXLanguage:+NewInference")
     }
 
     wrapper {
