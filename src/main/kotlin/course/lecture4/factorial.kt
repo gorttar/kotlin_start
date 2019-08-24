@@ -10,10 +10,19 @@ fun main() {
             
         """.trimIndent())
 
+    fun factorialTail(n: Int): Int {
+        tailrec fun factorial(n: Int, acc: Int = 1): Int = if (n == 1) acc else factorial(n - 1, acc * n)
+        return factorial(n)
+    }
+
+    println(factorialTail(5))
+    println()
+
     fun factorialIter(n: Int): Int {
         var prod = 1
         for (i in (1..n)) prod *= i
         return prod
     }
+
     println(factorialIter(5))
 }

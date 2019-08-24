@@ -1,7 +1,7 @@
 package course.lecture4
 
 fun main() {
-    fun <T: Comparable<T>> hasElemRecur(t: T, ts: List<T>): Boolean = when {
+    tailrec fun <T: Comparable<T>> hasElemRecur(t: T, ts: List<T>): Boolean = when {
         ts.isEmpty() -> false
         ts.size == 1 -> ts.first() == t
         else -> {
