@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 group = "org.gorttar"
 version = "1.0-SNAPSHOT"
 
-val kotlinVersion = "1.3.41"
+val kotlinVersion = "1.3.50"
 
 plugins {
     java
@@ -27,7 +27,7 @@ buildscript {
     repositories { mavenCentral() }
     dependencies {
         classpath("org.testng:testng:6.13.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.41")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
     }
 }
 
