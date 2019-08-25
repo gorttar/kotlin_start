@@ -19,7 +19,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion")
-//    implementation("org.gorttar", "visibility", "1.0-SNAPSHOT")
     testImplementation("org.testng:testng:6.13.1")
 }
 
@@ -38,8 +37,4 @@ tasks {
     }
 
     withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
-
-    wrapper {
-        gradleVersion = "5.2.1"
-    }
 }

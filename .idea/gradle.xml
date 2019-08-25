@@ -6,10 +6,12 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$USER_HOME$/bin/gradle-4.7" />
+        <option name="gradleHome" value="C:/gradle-4.8" />
+        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/visibility" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />
