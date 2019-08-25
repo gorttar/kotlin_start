@@ -6,7 +6,7 @@ fun main() {
             Вычислите внимательно:
             230 - 220 * 0.5
             Вы не поверите, но ответ 5!
-            Если что, 5! = ${factorial(5)}
+            Если что, 5! = factorial(5) = ${factorial(5)}
             
         """.trimIndent())
 
@@ -15,7 +15,12 @@ fun main() {
         return factorial(n)
     }
 
-    println(factorialTail(5))
+    println("Хвостовая рекурсия: factorialTail(5) = ${factorialTail(5)}")
+    println()
+
+    fun factorialHOF(n: Int): Int = (1..n).fold(1) { acc, i -> acc * i }
+
+    println("Функции высшего порядка: factorialHOF(5) = ${factorialHOF(5)}")
     println()
 
     fun factorialIter(n: Int): Int {
@@ -24,5 +29,5 @@ fun main() {
         return prod
     }
 
-    println(factorialIter(5))
+    println("Итерирование: factorialIter(5) = ${factorialIter(5)}")
 }

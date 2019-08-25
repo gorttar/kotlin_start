@@ -7,7 +7,7 @@ fun main() {
             if (xs.size == 1) xs[0]
             else xs[0] * multList(xs.drop(1))
 
-    println(multList(testList))
+    println("Простая рекурсия: multList($testList) = ${multList(testList)}")
 
     fun multListTail(xs: List<Int>): Int {
         tailrec fun multList(xs: List<Int>, acc: Int = 1): Int =
@@ -16,7 +16,11 @@ fun main() {
         return multList(xs)
     }
 
-    println(multListTail(testList))
+    println("Хвостовая рекурсия: multListTail($testList) = ${multListTail(testList)}")
+
+    fun multListHOF(xs: List<Int>): Int = xs.fold(1) { acc, x -> acc * x }
+
+    println("Функции высшего порядка: multListHOF($testList) = ${multListHOF(testList)}")
 
     fun multListIter(xs: List<Int>): Int {
         var prod = 1
@@ -24,5 +28,5 @@ fun main() {
         return prod
     }
 
-    println(multListIter(testList))
+    println("Итерирование: multListIter($testList) = ${multListIter(testList)}")
 }

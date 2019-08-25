@@ -9,7 +9,7 @@ fun main() {
             if (x == 0 || x == 1) 1
             else fib(x - 1) + fib(x - 2)
 
-    println(fib(10))
+    println("Простая рекурсия: fib(10) = ${fib(10)}")
 
     fun fibTail(x: Int): Int {
         tailrec fun fib(x: Int, acc: Int = 1, prevAcc: Int = 1): Int =
@@ -18,7 +18,14 @@ fun main() {
         return fib(x)
     }
 
-    println(fibTail(10))
+    println("Хвостовая рекурсия: fibTail(10) = ${fibTail(10)}")
+
+    fun fibHOF(x: Int): Int = generateSequence(1 to 1) { (acc, prevAcc) -> acc + prevAcc to acc }
+            .drop(x)
+            .first()
+            .second
+
+    println("Функции высшего порядка: fibHOF(10) = ${fibHOF(10)}")
 
     fun fibIter(x: Int): Int {
         var fib = 1
@@ -31,5 +38,6 @@ fun main() {
         return prevFib
     }
 
+    println("Итерирование: fibIter(10) = ${fibIter(10)}")
     println(fibIter(10))
 }
