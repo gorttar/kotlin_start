@@ -19,7 +19,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion")
-//    implementation("org.gorttar", "visibility", "1.0-SNAPSHOT")
+    implementation(project(":visibility"))
     testImplementation("org.testng:testng:6.13.1")
 }
 
