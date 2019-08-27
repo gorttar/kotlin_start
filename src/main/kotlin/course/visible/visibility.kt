@@ -1,21 +1,33 @@
 package course.visible
 
-import course.visible.Visible.pub
+import course.visible.VisObj.iprintln
+import course.visible.VisObj.privUnavailable
+import course.visible.VisObj.protUnavailable
 
-/**
- * не получится импортировать, так как переменная intern внутренняя, то есть доступна
- * только в модуле visibility
- */
-//import course.visible.Visible.intern
+private const val internUnavailable = "-Внутреннее поле intern не доступно за пределом модуля"
 
-/**
- * не получится импортировать, так как переменная priv приватна, то есть доступна
- * только в объекте course.visible.Visible
- */
-//import course.visible.Visible.priv
+private object VisNotModuleObj : Visible() {
+    override operator fun invoke() {
+        println("Мы в объекте, являющемся наследником класса course.visible.Visible")
+        println("Мы в другом модуле, нежели класс course.visible.Visible (модуль visible)")
+        iprintln(pub)
+        iprintln(internUnavailable)
+        iprintln(prot)
+        iprintln(privUnavailable)
+    }
+}
 
-fun main() {
-    println(pub)
-//    println(intern)
-//    println(priv)
+private object NotVisNotModuleObj : () -> Unit by {
+    with(Visible()) {
+        println("Мы в другом модуле, нежели класс course.visible.Visible (модуль visible)")
+        iprintln(pub)
+        iprintln(internUnavailable)
+        iprintln(protUnavailable)
+        iprintln(privUnavailable)
+    }
+}
+
+fun main() = sequenceOf(Visible(), VisObj, NotVisObj, VisNotModuleObj, NotVisNotModuleObj).forEach {
+    it()
+    println()
 }
