@@ -1,19 +1,21 @@
-package course.lecture4
+package course.visible
 
-import pub
+import course.visible.Visible.pub
 
 /**
  * не получится импортировать, так как переменная intern внутренняя, то есть доступна
  * только в модуле visibility
  */
-//import intern
+//import course.visible.Visible.intern
 
 /**
  * не получится импортировать, так как переменная priv приватна, то есть доступна
- * только в файле visibility/src/main/kotlin/course/lecture4/visibility.kt
+ * только в объекте course.visible.Visible
  */
-//import priv
+//import course.visible.Visible.priv
 
 fun main() {
     println(pub)
+//    println(intern)
+//    println(priv)
 }
