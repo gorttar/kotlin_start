@@ -27,7 +27,12 @@ private object NotVisNotModuleObj : () -> Unit by {
     }
 }
 
-fun main() = sequenceOf(Visible(), VisObj, NotVisObj, VisNotModuleObj, NotVisNotModuleObj).forEach {
+fun main() = sequenceOf(
+        Visible(),
+        VisObj,
+        NotVisObj,
+        VisNotModuleObj,
+        NotVisNotModuleObj).forEach {
     it()
     println()
 }
