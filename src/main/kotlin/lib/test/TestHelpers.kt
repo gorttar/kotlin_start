@@ -75,4 +75,4 @@ infix fun <Case, R> NamedCaseWithBody<Case, R>.shouldBeEqualTo(expected: R) =
 
 infix fun <Case, R> NamedCaseWithBody<Case, R>.shouldBe(assertion: Assertion<R>) = this(assertion)
 
-val FAIL: Nothing get() = TODO("Реши меня")
+val FAIL: Nothing inline get() = TODO("Реши меня")
