@@ -47,7 +47,7 @@ val wordList = loadWords()
  * [lettersGuessed] - множество букв, которые уже вводил игрок на текущий момент. Все буквы строчные
  * @return true, если все буквы из [secretWord] есть в [lettersGuessed] иначе false
  *
- * Пример использования смотри [тут][Problem1Sample.main]
+ * Пример использования смотри [тут][IsWordGuessedSample.main]
  */
 fun isWordGuessed(secretWord: String, lettersGuessed: Set<Char>): Boolean {
     FAIL
