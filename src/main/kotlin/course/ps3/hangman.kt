@@ -39,7 +39,9 @@ fun chooseWord(wordList: List<String>): String = wordList.random()
  * -----------------------------------
  */
 
-val wordList = loadWords()
+val wordList by lazy(::loadWords)
+
+val alphabet = ('a'..'z').joinToString("")
 
 /**
  * В первой задаче напишите функцию [isWordGuessed], которая принимает на вход два параметра:
@@ -74,8 +76,13 @@ fun getGuessedWord(secretWord: String, lettersGuessed: Set<Char>): String {
 }
 
 /**
- * [lettersGuessed] - множество букв, которые уже вводил игрок на текущий момент
- * @return строку, состоящую из букв, которые игрок ещё не вводил
+ * В третьей задаче напишите функцию [getAvailableLetters], которая принимает на вход параметр:
+ * [lettersGuessed] - множество букв, которые уже вводил игрок на текущий момент. Все буквы строчные
+ * @return строку, состоящую из букв, которые игрок ещё не вводил в алфавитном порядке
+ *
+ * для решения вы можете использовать строку [alphabet], состоящую из всех строчных букв в алфавитном порядке
+ *
+ * Пример использования смотри [тут][GetAvailableLettersSample.main]
  */
 fun getAvailableLetters(lettersGuessed: Set<Char>): String {
     FAIL
