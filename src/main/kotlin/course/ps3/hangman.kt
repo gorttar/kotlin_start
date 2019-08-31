@@ -23,10 +23,10 @@ const val WORDLIST_FILENAME = "words.txt"
 fun loadWords(): List<String> = println("Загружаю слова из файла $WORDLIST_FILENAME ...")
         .let {
             @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-            Unit.javaClass.classLoader.getResource(WORDLIST_FILENAME)
-                    .readText().split(" ").map { it.trim().toLowerCase() }
+            Unit.javaClass.classLoader.getResource(WORDLIST_FILENAME).readText().split(" ")
+                    .map { it.trim().toLowerCase() }
         }
-        .apply { println("   загружено $size слов") }
+        .apply { println("загружено $size слов") }
 
 /**
  * [wordList] - список возможных слов
