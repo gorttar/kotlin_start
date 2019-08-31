@@ -13,32 +13,30 @@ import kotlin.random.Random.Default.nextInt
  *
  * запусти, чтобы протестировать функцию [isWordGuessed]
  */
-fun main() {
-    (sequenceOf(
-            TestCase("apple", setOf('e', 'i', 'k', 'p', 'r', 's'), false),
-            TestCase("apple", setOf('a', 'e', 'i', 'l', 'p', 's'), true)
-    ) + (1..10).asSequence()
-            .map {
-                nextBoolean()
-                        .let { expected ->
-                            generateSequence { ('a'..'z').partition { nextBoolean() } }
-                                    .first { (xs, ys) -> xs.isNotEmpty() && ys.isNotEmpty() }
-                                    .let { (xs, ys) ->
-                                        if (expected) TestCase(
-                                                (1..nextInt(11)).map { xs.random() }.joinToString(""),
-                                                xs.toSet(),
-                                                true)
-                                        else TestCase(
-                                                ((1..nextInt(6)).map { xs.random() } +
-                                                        (0..nextInt(5)).map { ys.random() })
-                                                        .joinToString(""),
-                                                xs.toSet(),
-                                                false)
-                                    }
-                        }
-            }).forEach { (args, expected) ->
-        args passTo { isWordGuessed(secretWord, lettersGuessed) } shouldBeEqualTo expected
-    }
+fun main() = (sequenceOf(
+        TestCase("apple", setOf('e', 'i', 'k', 'p', 'r', 's'), false),
+        TestCase("apple", setOf('a', 'e', 'i', 'l', 'p', 's'), true)
+) + (1..10).asSequence()
+        .map {
+            nextBoolean()
+                    .let { expected ->
+                        generateSequence { ('a'..'z').partition { nextBoolean() } }
+                                .first { (xs, ys) -> xs.isNotEmpty() && ys.isNotEmpty() }
+                                .let { (xs, ys) ->
+                                    if (expected) TestCase(
+                                            (1..nextInt(11)).map { xs.random() }.joinToString(""),
+                                            xs.toSet(),
+                                            true)
+                                    else TestCase(
+                                            ((1..nextInt(6)).map { xs.random() } +
+                                                    (0..nextInt(5)).map { ys.random() })
+                                                    .joinToString(""),
+                                            xs.toSet(),
+                                            false)
+                                }
+                    }
+        }).forEach { (args, expected) ->
+    args passTo { isWordGuessed(secretWord, lettersGuessed) } shouldBeEqualTo expected
 }
 
 object IsWordGuessedSample {
