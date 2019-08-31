@@ -42,9 +42,12 @@ fun chooseWord(wordList: List<String>): String = wordList.random()
 val wordList = loadWords()
 
 /**
- * [secretWord] - слово, которое пытается угадать игрок
- * [lettersGuessed] - множество букв, которые уже вводил игрок на текущий момент
+ * В первой задаче напишите функцию [isWordGuessed], которая принимает на вход два параметра:
+ * [secretWord] - слово, которое пытается угадать игрок. Все буквы строчные
+ * [lettersGuessed] - множество букв, которые уже вводил игрок на текущий момент. Все буквы строчные
  * @return true, если все буквы из [secretWord] есть в [lettersGuessed] иначе false
+ *
+ * Пример использования смотри [тут][Problem1Sample.main]
  */
 fun isWordGuessed(secretWord: String, lettersGuessed: Set<Char>): Boolean {
     FAIL
