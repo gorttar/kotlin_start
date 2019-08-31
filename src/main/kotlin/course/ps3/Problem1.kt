@@ -1,5 +1,6 @@
 package course.ps3
 
+import lib.repr.repr
 import lib.test.passTo
 import lib.test.shouldBeEqualTo
 import kotlin.random.Random.Default.nextBoolean
@@ -50,15 +51,15 @@ object IsWordGuessedSample {
     }
 }
 
-private class TestArgs(val secretWord: String, val lettersGuessed: Set<Char>) {
+class TestArgs(val secretWord: String, val lettersGuessed: Set<Char>) {
     override fun toString(): String = "Test: secretWord=\"$secretWord\", lettersGuessed=$lettersGuessed"
 }
 
-private class TestCase(secretWord: String, lettersGuessed: Set<Char>, val expected: Boolean) {
+class TestCase<E>(secretWord: String, lettersGuessed: Set<Char>, val expected: E) {
     val args: TestArgs = TestArgs(secretWord, lettersGuessed)
     @Suppress("unused")
-    val repr by lazy { "TestCase(\"$secretWord\", setOf(${lettersGuessed.joinToString()}), $expected)" }
+    val repr by lazy { "TestCase(\"$secretWord\", setOf(${lettersGuessed.joinToString()}), ${expected.repr})" }
 
     operator fun component1(): TestArgs = args
-    operator fun component2(): Boolean = expected
+    operator fun component2(): E = expected
 }
