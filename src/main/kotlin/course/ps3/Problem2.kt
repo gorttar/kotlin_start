@@ -2,8 +2,8 @@ package course.ps3
 
 import lib.repr.repr
 import lib.test.orElse
-import lib.test.passTo
 import lib.test.randomAlphabetPartition
+import lib.test.selfNamedPassTo
 import lib.test.shouldBe
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextInt
@@ -29,7 +29,7 @@ fun main() = (sequenceOf(
                 TestCase(word, xs.toSet(), masked)
             }
 }).forEach { (args, expected) ->
-    args passTo { getGuessedWord(secretWord, lettersGuessed) } shouldBe { actual ->
+    args selfNamedPassTo { getGuessedWord(secretWord, lettersGuessed) } shouldBe { actual ->
         (actual.replace(" ", "") == expected.replace(" ", "")) orElse expected.repr
     }
 }

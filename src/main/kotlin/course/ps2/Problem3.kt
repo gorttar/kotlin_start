@@ -2,7 +2,7 @@ package course.ps2
 
 import lib.test.FAIL
 import lib.test.orElse
-import lib.test.passTo
+import lib.test.selfNamedPassTo
 import lib.test.shouldBe
 import lib.test.withTimeLimit
 
@@ -74,7 +74,7 @@ fun main() {
             PayInAYearCase(320000.0, 0.2, "Lowest Payment: 29157.1"),
             PayInAYearCase(999999.0, 0.18, "Lowest Payment: 90325.03")
     ) + bisectionCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
-        args passTo { payInAYearBisection(balance, annualInterestRate) } withTimeLimit 10 shouldBe { actual ->
+        args selfNamedPassTo { payInAYearBisection(balance, annualInterestRate) } withTimeLimit 10 shouldBe { actual ->
             val expectedRange = (expected.payment() - 0.02).round(2)..(expected.payment() + 0.02).round(2)
             (actual.replace("^.*\\.".toRegex(), "").length <= 2 && actual.payment() in expectedRange) orElse
                     "Lowest Payment in $expectedRange"

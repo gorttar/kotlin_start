@@ -1,8 +1,8 @@
 package course.ps3
 
 import lib.repr.repr
-import lib.test.passTo
 import lib.test.randomAlphabetPartition
+import lib.test.selfNamedPassTo
 import lib.test.shouldBeEqualTo
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextInt
@@ -35,7 +35,7 @@ fun main() = (sequenceOf(
                         }
             }
 }).forEach { (args, expected) ->
-    args passTo { isWordGuessed(secretWord, lettersGuessed) } shouldBeEqualTo expected
+    args selfNamedPassTo { isWordGuessed(secretWord, lettersGuessed) } shouldBeEqualTo expected
 }
 
 object IsWordGuessedSample {

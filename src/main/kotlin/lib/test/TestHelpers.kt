@@ -68,7 +68,7 @@ class NamedCaseWithBody<Case, R> private constructor(
     }
 }
 
-infix fun <Case, R> Case.passTo(body: Case.() -> R): NamedCaseWithBody<Case, R> = namedAs("$this") passTo body
+infix fun <Case, R> Case.selfNamedPassTo(body: Case.() -> R): NamedCaseWithBody<Case, R> = namedAs("$this") passTo body
 
 infix fun <Case, R> NamedCaseWithBody<Case, R>.withTimeLimit(limit: Int) = withTimeLimit(limit.toDouble())
 

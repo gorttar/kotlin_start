@@ -1,7 +1,7 @@
 package course.ps2
 
 import lib.test.FAIL
-import lib.test.passTo
+import lib.test.selfNamedPassTo
 import lib.test.shouldBeEqualTo
 import kotlin.math.pow
 import kotlin.math.roundToLong
@@ -79,6 +79,6 @@ fun main() = (sequenceOf(
         PayMinimalCase(42.0, 0.2, 0.04, "Remaining balance: 31.38"),
         PayMinimalCase(484.0, 0.2, 0.04, "Remaining balance: 361.61")
 ) + payMinimalCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
-    args passTo { payMinimalAYear(balance, annualInterestRate, monthlyPaymentRate) } shouldBeEqualTo expected
+    args selfNamedPassTo { payMinimalAYear(balance, annualInterestRate, monthlyPaymentRate) } shouldBeEqualTo expected
 }
 

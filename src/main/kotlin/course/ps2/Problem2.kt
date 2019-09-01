@@ -1,7 +1,7 @@
 package course.ps2
 
 import lib.test.FAIL
-import lib.test.passTo
+import lib.test.selfNamedPassTo
 import lib.test.shouldBeEqualTo
 
 /**
@@ -60,5 +60,5 @@ fun main() = (sequenceOf(
         PayInAYearCase(3926.0, 0.2, "Lowest Payment: 360"),
         PayInAYearCase(4773.0, 0.2, "Lowest Payment: 440")
 ) + exhaustiveCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
-    args passTo { payInAYearExhaustive(balance, annualInterestRate) } shouldBeEqualTo expected
+    args selfNamedPassTo { payInAYearExhaustive(balance, annualInterestRate) } shouldBeEqualTo expected
 }
