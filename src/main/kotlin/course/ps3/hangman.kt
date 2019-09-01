@@ -1,5 +1,6 @@
 package course.ps3
 
+import lib.helpers.alphabet
 import lib.test.FAIL
 
 /**
@@ -40,8 +41,6 @@ fun chooseWord(wordList: List<String>): String = wordList.random()
  */
 
 val wordList by lazy(::loadWords)
-
-val alphabet = ('a'..'z').joinToString("")
 
 /**
  * В первой задаче напишите функцию [isWordGuessed], которая принимает на вход два параметра:
