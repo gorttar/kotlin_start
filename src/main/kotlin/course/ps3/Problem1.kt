@@ -2,6 +2,7 @@ package course.ps3
 
 import lib.repr.repr
 import lib.test.passTo
+import lib.test.randomAlphabetPartition
 import lib.test.shouldBeEqualTo
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextInt
@@ -19,8 +20,7 @@ fun main() = (sequenceOf(
 ) + (1..10).asSequence().map {
     nextBoolean()
             .let { expected ->
-                generateSequence { ('a'..'z').partition { nextBoolean() } }
-                        .first { (xs, ys) -> xs.isNotEmpty() && ys.isNotEmpty() }
+                randomAlphabetPartition()
                         .let { (xs, ys) ->
                             if (expected) TestCase(
                                     (1..nextInt(11)).map { xs.random() }.joinToString(""),

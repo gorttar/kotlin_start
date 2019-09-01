@@ -3,6 +3,7 @@ package course.ps3
 import lib.repr.repr
 import lib.test.orElse
 import lib.test.passTo
+import lib.test.randomAlphabetPartition
 import lib.test.shouldBe
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextInt
@@ -16,8 +17,7 @@ fun main() = (sequenceOf(
         TestCase("apple", setOf('e', 'i', 'k', 'p', 'r', 's'), "_ pp_ e"),
         TestCase("apple", setOf('a', 'e', 'i', 'l', 'p', 's'), "apple")
 ) + (1..10).asSequence().map {
-    generateSequence { ('a'..'z').partition { nextBoolean() } }
-            .first { (xs, ys) -> xs.isNotEmpty() && ys.isNotEmpty() }
+    randomAlphabetPartition()
             .let { (xs, ys) ->
                 val fold = (1..nextInt(11))
                         .map {

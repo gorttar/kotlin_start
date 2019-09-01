@@ -7,6 +7,7 @@ import lib.control.Try.Companion.failure
 import lib.control.Try.Companion.handle
 import lib.control.Try.Companion.map
 import lib.control.Try.Companion.success
+import lib.helpers.alphabet
 import lib.repr.repr
 import lib.test.NamedCase.Companion.namedAs
 import lib.test.NamedCaseWithBody.Companion.passTo
@@ -14,6 +15,7 @@ import java.util.concurrent.Callable
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeoutException
+import kotlin.random.Random
 
 fun printSuccessLn(message: Any?) = println("\u001B[32m$message\u001B[0m")
 fun printFailLn(message: Any?) = println("\u001B[31m$message\u001B[0m")
@@ -76,3 +78,6 @@ infix fun <Case, R> NamedCaseWithBody<Case, R>.shouldBeEqualTo(expected: R) =
 infix fun <Case, R> NamedCaseWithBody<Case, R>.shouldBe(assertion: Assertion<R>) = this(assertion)
 
 val FAIL: Nothing inline get() = TODO("Реши меня")
+
+fun randomAlphabetPartition(): Pair<String, String> = generateSequence { alphabet.partition { Random.nextBoolean() } }
+        .first { (xs, ys) -> xs.isNotEmpty() && ys.isNotEmpty() }
