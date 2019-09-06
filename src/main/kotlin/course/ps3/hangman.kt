@@ -49,6 +49,9 @@ val wordList by lazy(::loadWords)
  * @return true, если все буквы из [secretWord] есть в [lettersGuessed] иначе false
  *
  * Пример использования смотри [тут][IsWordGuessedSample.main]
+ *
+ * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps3/Problem1Test.kt и смотришь вывод.
+ * Он должен быть зелёным, если всё верно
  */
 fun isWordGuessed(secretWord: String, lettersGuessed: Set<Char>): Boolean {
     FAIL
@@ -69,6 +72,9 @@ fun isWordGuessed(secretWord: String, lettersGuessed: Set<Char>): Boolean {
  * использования.
  *
  * Пример использования смотри [тут][GetGuessedWordSample.main]
+ *
+ * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps3/Problem2Test.kt и смотришь вывод.
+ * Он должен быть зелёным, если всё верно
  */
 fun getGuessedWord(secretWord: String, lettersGuessed: Set<Char>): String {
     FAIL
@@ -82,6 +88,9 @@ fun getGuessedWord(secretWord: String, lettersGuessed: Set<Char>): String {
  * для решения вы можете использовать строку [alphabet], состоящую из всех строчных букв в алфавитном порядке
  *
  * Пример использования смотри [тут][GetAvailableLettersSample.main]
+ *
+ * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps3/Problem3Test.kt и смотришь вывод.
+ * Он должен быть зелёным, если всё верно
  */
 fun getAvailableLetters(lettersGuessed: Set<Char>): String {
     FAIL

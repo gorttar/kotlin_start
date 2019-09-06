@@ -1,6 +1,5 @@
 package course.ps3
 
-import lib.repr.repr
 import lib.test.randomAlphabetPartition
 import lib.test.selfNamedPassTo
 import lib.test.shouldBeEqualTo
@@ -36,27 +35,4 @@ fun main() = (sequenceOf(
             }
 }).forEach { (args, expected) ->
     args selfNamedPassTo { isWordGuessed(secretWord, lettersGuessed) } shouldBeEqualTo expected
-}
-
-object IsWordGuessedSample {
-    @JvmStatic
-    fun main(args: Array<String>) {
-        /**
-         * пример использования функции [isWordGuessed]
-         */
-        println(isWordGuessed("apple", setOf('e', 'i', 'k', 'p', 'r', 's')))/*должно вывести false*/
-    }
-}
-
-class TestArgs(val secretWord: String, val lettersGuessed: Set<Char>) {
-    override fun toString(): String = "Test: secretWord=\"$secretWord\", lettersGuessed=$lettersGuessed"
-}
-
-class TestCase<E>(secretWord: String, lettersGuessed: Set<Char>, val expected: E) {
-    val args: TestArgs = TestArgs(secretWord, lettersGuessed)
-    @Suppress("unused")
-    val repr by lazy { "TestCase(\"$secretWord\", setOf(${lettersGuessed.joinToString()}), ${expected.repr})" }
-
-    operator fun component1(): TestArgs = args
-    operator fun component2(): E = expected
 }
