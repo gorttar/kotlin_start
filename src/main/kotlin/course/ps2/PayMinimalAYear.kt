@@ -1,8 +1,6 @@
 package course.ps2
 
 import lib.test.FAIL
-import lib.test.selfNamedPassTo
-import lib.test.shouldBeEqualTo
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
@@ -62,7 +60,8 @@ import kotlin.math.roundToLong
  * *            [monthlyPaymentRate] = 0.04
  * *        Ожидаемый результат: "Remaining balance: 361.61"
  *
- * Для проверки задания запускаешь [main] и смотришь вывод. Он должен быть зелёным, если всё верно
+ * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps2/Problem1Test.kt и смотришь вывод.
+ * Он должен быть зелёным, если всё верно
  */
 fun payMinimalAYear(balance: Double, annualInterestRate: Double, monthlyPaymentRate: Double): String {
     FAIL
@@ -71,14 +70,3 @@ fun payMinimalAYear(balance: Double, annualInterestRate: Double, monthlyPaymentR
 fun Double.round(decimals: Int): Double = 10.0.pow(decimals).let {
     times(it).roundToLong() / it
 }
-
-/**
- * запусти, чтобы протестировать функцию [payMinimalAYear]
- */
-fun main() = (sequenceOf(
-        PayMinimalCase(42.0, 0.2, 0.04, "Remaining balance: 31.38"),
-        PayMinimalCase(484.0, 0.2, 0.04, "Remaining balance: 361.61")
-) + payMinimalCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
-    args selfNamedPassTo { payMinimalAYear(balance, annualInterestRate, monthlyPaymentRate) } shouldBeEqualTo expected
-}
-

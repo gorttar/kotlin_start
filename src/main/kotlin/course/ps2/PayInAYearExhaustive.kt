@@ -1,8 +1,6 @@
 package course.ps2
 
 import lib.test.FAIL
-import lib.test.selfNamedPassTo
-import lib.test.shouldBeEqualTo
 
 /**
  * Необходимо написать функцию, которая находит минимальный фиксированный месячный платёж, достаточный для погашения
@@ -46,19 +44,9 @@ import lib.test.shouldBeEqualTo
  * *            [annualInterestRate] = 0.2
  * *        Ожидаемый результат: "Lowest Payment: 360"
  *
- * Для проверки задания запускаешь [main] и смотришь вывод. Он должен быть зелёным, если всё верно
+ * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps2/Problem2Test.kt и смотришь вывод.
+ * Он должен быть зелёным, если всё верно
  */
 fun payInAYearExhaustive(balance: Double, annualInterestRate: Double): String {
     FAIL
-}
-
-/**
- * запусти, чтобы протестировать функцию [payMinimalAYear]
- */
-fun main() = (sequenceOf(
-        PayInAYearCase(3329.0, 0.2, "Lowest Payment: 310"),
-        PayInAYearCase(3926.0, 0.2, "Lowest Payment: 360"),
-        PayInAYearCase(4773.0, 0.2, "Lowest Payment: 440")
-) + exhaustiveCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
-    args selfNamedPassTo { payInAYearExhaustive(balance, annualInterestRate) } shouldBeEqualTo expected
 }

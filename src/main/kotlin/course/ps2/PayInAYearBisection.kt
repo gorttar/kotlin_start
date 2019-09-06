@@ -1,10 +1,6 @@
 package course.ps2
 
 import lib.test.FAIL
-import lib.test.orElse
-import lib.test.selfNamedPassTo
-import lib.test.shouldBe
-import lib.test.withTimeLimit
 
 /**
  * В предыдущей задаче месячный платёж был кратен 10 рублям. Зачем это было сделано? Ты можешь попробовать запустить
@@ -60,26 +56,9 @@ import lib.test.withTimeLimit
  * *            [annualInterestRate] = 0.18
  * *        Ожидаемый результат: "Lowest Payment: 90325.03"
  *
- * Для проверки задания запускаешь [main] и смотришь вывод. Он должен быть зелёным, если всё верно
+ * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps2/Problem3Test.kt и смотришь вывод.
+ * Он должен быть зелёным, если всё верно
  */
 fun payInAYearBisection(balance: Double, annualInterestRate: Double): String {
     FAIL
 }
-
-/**
- * запусти, чтобы протестировать функцию [payInAYearBisection]
- */
-fun main() {
-    (sequenceOf(
-            PayInAYearCase(320000.0, 0.2, "Lowest Payment: 29157.1"),
-            PayInAYearCase(999999.0, 0.18, "Lowest Payment: 90325.03")
-    ) + bisectionCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
-        args selfNamedPassTo { payInAYearBisection(balance, annualInterestRate) } withTimeLimit 10 shouldBe { actual ->
-            val expectedRange = (expected.payment() - 0.02).round(2)..(expected.payment() + 0.02).round(2)
-            (actual.replace("^.*\\.".toRegex(), "").length <= 2 && actual.payment() in expectedRange) orElse
-                    "Lowest Payment in $expectedRange"
-        }
-    }
-}
-
-private fun String.payment() = removePrefix("Lowest Payment: ").toDouble()

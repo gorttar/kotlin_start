@@ -1,28 +1,19 @@
 package course.ps2
 
-class PayMinimalArgs(val balance: Double, val annualInterestRate: Double, val monthlyPaymentRate: Double) {
-    @Suppress("MemberVisibilityCanBePrivate")
-    val str by lazy {
-        "Test: " +
-                "balance=$balance, " +
-                "annualInterestRate=$annualInterestRate, " +
-                "monthlyPaymentRate=$monthlyPaymentRate"
-    }
+import lib.test.selfNamedPassTo
+import lib.test.shouldBeEqualTo
 
-    override fun toString(): String = str
+/**
+ * запусти, чтобы протестировать функцию [payMinimalAYear]
+ */
+fun main() = (sequenceOf(
+        PayMinimalCase(42.0, 0.2, 0.04, "Remaining balance: 31.38"),
+        PayMinimalCase(484.0, 0.2, 0.04, "Remaining balance: 361.61")
+) + payMinimalCases.shuffled().asSequence().take(10)).forEach { (args, expected) ->
+    args selfNamedPassTo { payMinimalAYear(balance, annualInterestRate, monthlyPaymentRate) } shouldBeEqualTo expected
 }
 
-@Suppress("MemberVisibilityCanBePrivate")
-class PayMinimalCase(balance: Double, annualInterestRate: Double, monthlyPaymentRate: Double, val expected: String) {
-    val args: PayMinimalArgs = PayMinimalArgs(balance, annualInterestRate, monthlyPaymentRate)
-    @Suppress("unused")
-    val repr by lazy { "PayMinimalCase($balance, $annualInterestRate, $monthlyPaymentRate, \"$expected\")" }
-
-    operator fun component1(): PayMinimalArgs = args
-    operator fun component2(): String = expected
-}
-
-val payMinimalCases = listOf(
+private val payMinimalCases = listOf(
         PayMinimalCase(42.0, 0.05, 0.01, "Remaining balance: 39.12"),
         PayMinimalCase(42.0, 0.05, 0.02, "Remaining balance: 34.64"),
         PayMinimalCase(42.0, 0.05, 0.03, "Remaining balance: 30.65"),
@@ -323,85 +314,24 @@ val payMinimalCases = listOf(
         PayMinimalCase(5000.0, 0.5, 0.1, "Remaining balance: 2304.77")
 )
 
-class PayInAYearArgs(val balance: Double, val annualInterestRate: Double) {
+private class PayMinimalArgs(val balance: Double, val annualInterestRate: Double, val monthlyPaymentRate: Double) {
     @Suppress("MemberVisibilityCanBePrivate")
     val str by lazy {
         "Test: " +
                 "balance=$balance, " +
-                "annualInterestRate=$annualInterestRate"
+                "annualInterestRate=$annualInterestRate, " +
+                "monthlyPaymentRate=$monthlyPaymentRate"
     }
 
     override fun toString(): String = str
 }
 
 @Suppress("MemberVisibilityCanBePrivate")
-class PayInAYearCase(balance: Double, annualInterestRate: Double, val expected: String) {
-    val args: PayInAYearArgs = PayInAYearArgs(balance, annualInterestRate)
+private class PayMinimalCase(balance: Double, annualInterestRate: Double, monthlyPaymentRate: Double, val expected: String) {
+    val args: PayMinimalArgs = PayMinimalArgs(balance, annualInterestRate, monthlyPaymentRate)
     @Suppress("unused")
-    val repr by lazy { "PayInAYearCase($balance, $annualInterestRate, \"$expected\")" }
+    val repr by lazy { "PayMinimalCase($balance, $annualInterestRate, $monthlyPaymentRate, \"$expected\")" }
 
-    operator fun component1(): PayInAYearArgs = args
+    operator fun component1(): PayMinimalArgs = args
     operator fun component2(): String = expected
 }
-
-val exhaustiveCases = listOf(
-        PayInAYearCase(3329.0, 0.05, "Lowest Payment: 290"),
-        PayInAYearCase(3329.0, 0.1, "Lowest Payment: 300"),
-        PayInAYearCase(3329.0, 0.15, "Lowest Payment: 300"),
-        PayInAYearCase(3329.0, 0.25, "Lowest Payment: 310"),
-        PayInAYearCase(3329.0, 0.3, "Lowest Payment: 320"),
-        PayInAYearCase(3329.0, 0.35, "Lowest Payment: 330"),
-        PayInAYearCase(3329.0, 0.4, "Lowest Payment: 340"),
-        PayInAYearCase(3329.0, 0.45, "Lowest Payment: 340"),
-        PayInAYearCase(3329.0, 0.5, "Lowest Payment: 350"),
-        PayInAYearCase(3926.0, 0.05, "Lowest Payment: 340"),
-        PayInAYearCase(3926.0, 0.1, "Lowest Payment: 350"),
-        PayInAYearCase(3926.0, 0.15, "Lowest Payment: 350"),
-        PayInAYearCase(3926.0, 0.25, "Lowest Payment: 370"),
-        PayInAYearCase(3926.0, 0.3, "Lowest Payment: 380"),
-        PayInAYearCase(3926.0, 0.35, "Lowest Payment: 390"),
-        PayInAYearCase(3926.0, 0.4, "Lowest Payment: 390"),
-        PayInAYearCase(3926.0, 0.45, "Lowest Payment: 400"),
-        PayInAYearCase(3926.0, 0.5, "Lowest Payment: 410"),
-        PayInAYearCase(4773.0, 0.05, "Lowest Payment: 410"),
-        PayInAYearCase(4773.0, 0.1, "Lowest Payment: 420"),
-        PayInAYearCase(4773.0, 0.15, "Lowest Payment: 430"),
-        PayInAYearCase(4773.0, 0.25, "Lowest Payment: 450"),
-        PayInAYearCase(4773.0, 0.3, "Lowest Payment: 460"),
-        PayInAYearCase(4773.0, 0.35, "Lowest Payment: 470"),
-        PayInAYearCase(4773.0, 0.4, "Lowest Payment: 480"),
-        PayInAYearCase(4773.0, 0.45, "Lowest Payment: 490"),
-        PayInAYearCase(4773.0, 0.5, "Lowest Payment: 500")
-)
-
-val bisectionCases = listOf(
-        PayInAYearCase(320000.0, 0.05, "Lowest Payment: 27280.73"),
-        PayInAYearCase(320000.0, 0.1, "Lowest Payment: 27900.58"),
-        PayInAYearCase(320000.0, 0.15, "Lowest Payment: 28526.08"),
-        PayInAYearCase(320000.0, 0.25, "Lowest Payment: 29793.45"),
-        PayInAYearCase(320000.0, 0.3, "Lowest Payment: 30435.0"),
-        PayInAYearCase(320000.0, 0.35, "Lowest Payment: 31081.61"),
-        PayInAYearCase(320000.0, 0.4, "Lowest Payment: 31733.11"),
-        PayInAYearCase(320000.0, 0.45, "Lowest Payment: 32389.34"),
-        PayInAYearCase(320000.0, 0.5, "Lowest Payment: 33050.15"),
-        PayInAYearCase(500000.0, 0.05, "Lowest Payment: 42626.13"),
-        PayInAYearCase(500000.0, 0.1, "Lowest Payment: 43594.65"),
-        PayInAYearCase(500000.0, 0.15, "Lowest Payment: 44572.0"),
-        PayInAYearCase(500000.0, 0.2, "Lowest Payment: 45557.95"),
-        PayInAYearCase(500000.0, 0.25, "Lowest Payment: 46552.27"),
-        PayInAYearCase(500000.0, 0.3, "Lowest Payment: 47554.69"),
-        PayInAYearCase(500000.0, 0.35, "Lowest Payment: 48565.02"),
-        PayInAYearCase(500000.0, 0.4, "Lowest Payment: 49582.97"),
-        PayInAYearCase(500000.0, 0.45, "Lowest Payment: 50608.33"),
-        PayInAYearCase(500000.0, 0.5, "Lowest Payment: 51640.85"),
-        PayInAYearCase(999999.0, 0.05, "Lowest Payment: 85252.17"),
-        PayInAYearCase(999999.0, 0.1, "Lowest Payment: 87189.23"),
-        PayInAYearCase(999999.0, 0.15, "Lowest Payment: 89143.92"),
-        PayInAYearCase(999999.0, 0.2, "Lowest Payment: 91115.82"),
-        PayInAYearCase(999999.0, 0.25, "Lowest Payment: 93104.44"),
-        PayInAYearCase(999999.0, 0.3, "Lowest Payment: 95109.3"),
-        PayInAYearCase(999999.0, 0.35, "Lowest Payment: 97129.94"),
-        PayInAYearCase(999999.0, 0.4, "Lowest Payment: 99165.86"),
-        PayInAYearCase(999999.0, 0.45, "Lowest Payment: 101216.58"),
-        PayInAYearCase(999999.0, 0.5, "Lowest Payment: 103281.6")
-)
