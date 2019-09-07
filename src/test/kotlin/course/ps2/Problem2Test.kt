@@ -4,7 +4,7 @@ import lib.test.selfNamedPassTo
 import lib.test.shouldBeEqualTo
 
 /**
- * запусти, чтобы протестировать функцию [payMinimalAYear]
+ * запусти, чтобы протестировать функцию [payInAYearExhaustive]
  */
 fun main() = (sequenceOf(
         PayInAYearCase(3329.0, 0.2, "Lowest Payment: 310"),
