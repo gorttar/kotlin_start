@@ -8,6 +8,9 @@ import lib.control.Try.Companion.handle
 import lib.control.Try.Companion.map
 import lib.control.Try.Companion.success
 import lib.helpers.alphabet
+import lib.output.BLK
+import lib.output.G
+import lib.output.R
 import lib.repr.repr
 import lib.test.NamedCase.Companion.namedAs
 import lib.test.NamedCaseWithBody.Companion.passTo
@@ -17,8 +20,8 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeoutException
 import kotlin.random.Random
 
-fun printSuccessLn(message: Any?) = println("\u001B[32m$message\u001B[0m")
-fun printFailLn(message: Any?) = println("\u001B[31m$message\u001B[0m")
+fun printSuccessLn(message: Any?) = println("$G$message$BLK")
+fun printFailLn(message: Any?) = println("$R$message$BLK")
 
 class NamedCase<Case> private constructor(val case: Case, val name: Any) {
     companion object {
