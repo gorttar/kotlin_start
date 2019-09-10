@@ -1,9 +1,6 @@
 package lib.test
 
 import com.github.ajalt.mordant.AnsiCode
-import com.github.ajalt.mordant.AnsiColorCode
-import com.github.ajalt.mordant.TermColors
-import com.github.ajalt.mordant.TermColors.Level.TRUECOLOR
 import lib.control.S
 import lib.control.Try
 import lib.control.Try.Companion.Do
@@ -12,6 +9,8 @@ import lib.control.Try.Companion.handle
 import lib.control.Try.Companion.map
 import lib.control.Try.Companion.success
 import lib.helpers.alphabet
+import lib.output.green
+import lib.output.red
 import lib.repr.repr
 import lib.test.NamedCase.Companion.namedAs
 import lib.test.NamedCaseWithBody.Companion.passTo
@@ -21,14 +20,9 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeoutException
 import kotlin.random.Random
 
-private val termColors = TermColors(TRUECOLOR)
-val green: AnsiColorCode = termColors.green
-val red: AnsiColorCode = termColors.red
-val bold: AnsiCode = termColors.bold
-
-fun printSuccessLn(message: Any?) = println(green("$message"))
-
-fun printFailLn(message: Any?) = println(red("$message"))
+operator fun AnsiCode.get(message: Any?) = invoke(message.repr)
+fun printSuccessLn(message: Any?) = println(green[message])
+fun printFailLn(message: Any?) = println(red[message])
 
 class NamedCase<Case> private constructor(val case: Case, val name: Any) {
     companion object {
