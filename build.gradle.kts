@@ -21,7 +21,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion")
     implementation("com.github.ajalt:mordant:1.2.1")
     implementation(project(":visibility"))
-    testImplementation("org.testng:testng:6.13.1")
+    testImplementation("org.testng:testng:6.14.3")
 }
 
 buildscript {
@@ -37,10 +37,7 @@ tasks {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
     }
-
+    withType<Test> { useTestNG() }
     withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
-
-    wrapper {
-        gradleVersion = "5.2.1"
-    }
+    wrapper { gradleVersion = "5.2.1" }
 }
