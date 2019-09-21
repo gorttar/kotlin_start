@@ -3,29 +3,34 @@ package lib.repr
 val Any?.repr: String get() = repr(ProcessedCompounds())
 
 private fun Any?.repr(processedCompounds: ProcessedCompounds): String = when (this) {
+    null -> "null"
     is String -> "\"$this\""
     is Char -> "'$this'"
-    is Collection<*> -> this.repr("[", "]", this, processedCompounds) { it.repr(this) }
-    is Map<*, *> -> this.repr("{", "}", entries, processedCompounds) { (k, v) -> "${k.repr(this)}=${v.repr(this)}" }
+    is Collection<*> -> repr("[", "]", this, processedCompounds)
+    is Map<*, *> -> repr("{", "}", entries, processedCompounds) { (k, v) -> "${k.repr(this)}=${v.repr(this)}" }
+    is Pair<*, *> -> repr("(", ")", this.toList(), processedCompounds)
+    is Triple<*, *, *> -> repr("(", ")", this.toList(), processedCompounds)
     else -> "$this"
 }
 
-private fun <T : Any, E> T.repr(
+private inline fun <E> Any.repr(
         prefix: String,
         postfix: String,
         asCollection: Collection<E>,
         processedCompounds: ProcessedCompounds,
-        transform: ProcessedCompounds.(E) -> String = { it.toString() }): String = when (val k = K(this)) {
+        crossinline transform: ProcessedCompounds.(E) -> String = { it.repr(this) }): String = when (val k = K(this)) {
     in processedCompounds -> {
         "(cycle ${when (this) {
-            is Collection<*> -> "Collection #${processedCompounds[k]}"
-            is Map<*, *> -> "Map #${processedCompounds[k]}"
-            else -> "compound #${processedCompounds[k]}"
-        }})"
+            is Collection<*> -> "Collection"
+            is Map<*, *> -> "Map"
+            is Pair<*, *> -> "Pair"
+            is Triple<*, *, *> -> "Triple"
+            else -> "compound"
+        }} #${processedCompounds[k]})"
     }
     else -> {
         processedCompounds.add(k)
-        asCollection.joinToString(", ", prefix, postfix, transform = { processedCompounds.transform(it) })
+        asCollection.joinToString(", ", prefix, postfix) { processedCompounds.transform(it) }
     }
 }
 
