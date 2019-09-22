@@ -42,16 +42,16 @@ class ReprKtTest {
                             }
                             .exact("{(mutualRefMap)}"),
                     "{{[(cycle Map #1)]=(cycle Collection #3)}=(cycle Map #2)}"),
-            arrayOf("Simple pair", ("foo" to 'x').exact, "(\"foo\", 'x')"),
-            arrayOf("Simple triple", Triple("foo", 'x', listOf('y')).exact, "(\"foo\", 'x', ['y'])"),
+            arrayOf("Simple pair", ("foo" to 'x').exact, "Pair(\"foo\", 'x')"),
+            arrayOf("Simple triple", Triple("foo", 'x', listOf('y')).exact, "Triple(\"foo\", 'x', ['y'])"),
             arrayOf(
                     "mutual reference pair",
                     mutableListOf<Any>().let { it to it }.also { it.first.add(it) }.exact("((mutualRefPair))"),
-                    "([(cycle Pair #1)], (cycle Collection #2))"),
+                    "Pair([(cycle Pair #1)], (cycle Collection #2))"),
             arrayOf(
                     "mutual reference triple",
                     mutableListOf<Any>().let { Triple(it, it, it) }.also { it.first.add(it) }.exact("((mutualRefTriple))"),
-                    "([(cycle Triple #1)], (cycle Collection #2), (cycle Collection #2))"))
+                    "Triple([(cycle Triple #1)], (cycle Collection #2), (cycle Collection #2))"))
 
     @Test(dataProvider = "data for repr testing")
     fun `repr should provide correct values`(case: String, o: () -> Any?, expected: String) =

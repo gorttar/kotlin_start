@@ -1,16 +1,33 @@
 package lib.repr
 
+import kotlin.reflect.KVisibility.PUBLIC
+import kotlin.reflect.full.memberFunctions
+
 val Any?.repr: String get() = repr(ProcessedCompounds())
+
+private val componentNamePattern = "^component[0-9]+$".toRegex()
 
 private fun Any?.repr(processedCompounds: ProcessedCompounds): String = when (this) {
     null -> "null"
     is String -> "\"$this\""
     is Char -> "'$this'"
+    is Number -> "$this"
     is Collection<*> -> repr("[", "]", this, processedCompounds)
     is Map<*, *> -> repr("{", "}", entries, processedCompounds) { (k, v) -> "${k.repr(this)}=${v.repr(this)}" }
-    is Pair<*, *> -> repr("(", ")", this.toList(), processedCompounds)
-    is Triple<*, *, *> -> repr("(", ")", this.toList(), processedCompounds)
-    else -> "$this"
+    is Pair<*, *> -> repr("Pair(", ")", this.toList(), processedCompounds)
+    is Triple<*, *, *> -> repr("Triple(", ")", this.toList(), processedCompounds)
+    else -> {
+        val kClass = this::class
+        val asCollection = kClass.memberFunctions.asSequence()
+                .filter { it.name.matches(componentNamePattern) }
+                .sortedBy { it.name.replace("component", "").toInt() }
+                .filter { it.visibility == PUBLIC }
+                .filterIsInstance<Function1<Any, Any?>>()
+                .map { it(this) }
+                .toList()
+        if (asCollection.isNotEmpty()) repr("${kClass.simpleName}(", ")", asCollection, processedCompounds)
+        else "$this"
+    }
 }
 
 private inline fun <E> Any.repr(
@@ -19,15 +36,13 @@ private inline fun <E> Any.repr(
         asCollection: Collection<E>,
         processedCompounds: ProcessedCompounds,
         crossinline transform: ProcessedCompounds.(E) -> String = { it.repr(this) }): String = when (val k = K(this)) {
-    in processedCompounds -> {
-        "(cycle ${when (this) {
-            is Collection<*> -> "Collection"
-            is Map<*, *> -> "Map"
-            is Pair<*, *> -> "Pair"
-            is Triple<*, *, *> -> "Triple"
-            else -> "compound"
-        }} #${processedCompounds[k]})"
-    }
+    in processedCompounds -> "(cycle ${when (this) {
+        is Collection<*> -> "Collection"
+        is Map<*, *> -> "Map"
+        is Pair<*, *> -> "Pair"
+        is Triple<*, *, *> -> "Triple"
+        else -> "${this::class.simpleName}"
+    }} #${processedCompounds[k]})"
     else -> {
         processedCompounds.add(k)
         asCollection.joinToString(", ", prefix, postfix) { processedCompounds.transform(it) }
