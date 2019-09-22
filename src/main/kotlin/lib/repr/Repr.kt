@@ -11,7 +11,7 @@ private fun Any?.repr(processedCompounds: ProcessedCompounds): String = when (th
     null -> "null"
     is String -> "\"$this\""
     is Char -> "'$this'"
-    is Number -> "$this"
+    is Number, is Boolean -> "$this"
     is Collection<*> -> repr("[", "]", this, processedCompounds)
     is Map<*, *> -> repr("{", "}", entries, processedCompounds) { (k, v) -> "${k.repr(this)}=${v.repr(this)}" }
     is Pair<*, *> -> repr("Pair(", ")", this.toList(), processedCompounds)

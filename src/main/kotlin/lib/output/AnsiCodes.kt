@@ -10,3 +10,4 @@ val green: AnsiColorCode = termColors.green
 val red: AnsiColorCode = termColors.red
 val bold: AnsiCode = termColors.bold
 val boldGreen: AnsiCode = green + bold
+val magenta = termColors.magenta
