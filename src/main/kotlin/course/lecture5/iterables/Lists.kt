@@ -22,6 +22,8 @@ fun main() {
     println("\nОперации со списком ${"l".magenta} = ${l.repr.boldGreen}:")
     withIndent {
         println("Длина списка: ${"l.size".magenta} = ${l.size.repr.boldGreen}")
+        println("Содержится ли 2 в списке: ${"2 in l".magenta} = ${(2 in l).repr.boldGreen}")
+        println("Содержится ли 5 в списке: ${"5 in l".magenta} = ${(5 in l).repr.boldGreen}")
         println("Элемент списка с индексом 0: ${"l[0]".magenta} или ${"l.get(0)".magenta} = ${l[0].repr.boldGreen}")
         println("Элемент списка с индексом 2, увеличенный на 1: ${"l[2] + 1".magenta} = ${(l[2] + 1).repr.boldGreen}")
         val (i0, i1, i2) = l
