@@ -1,13 +1,13 @@
 package lib.output
 
 import com.github.ajalt.mordant.AnsiCode
-import com.github.ajalt.mordant.AnsiColorCode
 import com.github.ajalt.mordant.TermColors
 import com.github.ajalt.mordant.TermColors.Level.TRUECOLOR
 
 private val termColors = TermColors(TRUECOLOR)
-val green: AnsiColorCode = termColors.green
-val red: AnsiColorCode = termColors.red
-val bold: AnsiCode = termColors.bold
-val boldGreen: AnsiCode = green + bold
-val magenta = termColors.magenta
+private val boldGreen: AnsiCode = termColors.green + termColors.bold
+
+val String.green: String get() = termColors.green(this)
+val String.red: String get() = termColors.red(this)
+val String.boldGreen: String get() = boldGreen(this)
+val String.magenta: String get() = termColors.magenta(this)

@@ -1,6 +1,5 @@
 package lib.test
 
-import com.github.ajalt.mordant.AnsiCode
 import lib.control.S
 import lib.control.Try
 import lib.control.Try.Companion.Do
@@ -20,9 +19,8 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeoutException
 import kotlin.random.Random
 
-operator fun AnsiCode.get(message: Any?) = invoke(message.repr)
-fun printSuccessLn(message: Any?) = println(green[message])
-fun printFailLn(message: Any?) = println(red[message])
+fun printSuccessLn(message: Any?) = println(message.repr.green)
+fun printFailLn(message: Any?) = println(message.repr.red)
 
 class NamedCase<Case> private constructor(val case: Case, val name: Any) {
     companion object {

@@ -3,53 +3,53 @@ package course.lecture5
 import lib.output.boldGreen
 import lib.output.magenta
 import lib.output.withIndent
-import lib.test.get
+import lib.repr.repr
 
 fun main() {
     val pair: Pair<Int, String> = 1 to "foo"
-    println("Для пары = ${boldGreen[pair]}")
+    println("Для пары = ${pair.repr.boldGreen}")
     withIndent {
-        println("${magenta("first")}  = ${boldGreen[pair.first]}")
-        println("${magenta("second")} = ${boldGreen[pair.second]}")
+        println("${"first".magenta}  = ${pair.first.repr.boldGreen}")
+        println("${"second".magenta} = ${pair.second.repr.boldGreen}")
         println("Деконструкция пары")
         withIndent {
             val (num, str) = pair
-            println("${magenta("num")} = ${boldGreen[num]}")
-            println("${magenta("str")} = ${boldGreen[str]}")
+            println("${"num".magenta} = ${num.repr.boldGreen}")
+            println("${"str".magenta} = ${str.repr.boldGreen}")
         }
     }
 
     println()
     val triple: Triple<Int, String, Double> = Triple(2, "bar", 3.0)
-    println("Для тройки = ${boldGreen[triple]}")
+    println("Для тройки = ${triple.repr.boldGreen}")
     withIndent {
-        println("${magenta("first")}  = ${boldGreen[triple.first]}")
-        println("${magenta("second")} = ${boldGreen[triple.second]}")
-        println("${magenta("third")}  = ${boldGreen[triple.third]}")
+        println("${"first".magenta}  = ${triple.first.repr.boldGreen}")
+        println("${"second".magenta} = ${triple.second.repr.boldGreen}")
+        println("${"third".magenta}  = ${triple.third.repr.boldGreen}")
         println("Деконструкция тройки")
         withIndent {
             val (num, str, dbl) = triple
-            println("${magenta("num")} = ${boldGreen[num]}")
-            println("${magenta("str")} = ${boldGreen[str]}")
-            println("${magenta("dbl")} = ${boldGreen[dbl]}")
+            println("${"num".magenta} = ${num.repr.boldGreen}")
+            println("${"str".magenta} = ${str.repr.boldGreen}")
+            println("${"dbl".magenta} = ${dbl.repr.boldGreen}")
         }
     }
 
     println()
     val quadruple = Quadruple(4, "baz", 5.0, '6')
-    println("Для четвёрки = ${boldGreen[quadruple]}")
+    println("Для четвёрки = ${quadruple.repr.boldGreen}")
     withIndent {
-        println("${magenta("first")}  = ${boldGreen[quadruple.first]}")
-        println("${magenta("second")} = ${boldGreen[quadruple.second]}")
-        println("${magenta("third")}  = ${boldGreen[quadruple.third]}")
-        println("${magenta("forth")}  = ${boldGreen[quadruple.forth]}")
+        println("${"first".magenta}  = ${quadruple.first.repr.boldGreen}")
+        println("${"second".magenta} = ${quadruple.second.repr.boldGreen}")
+        println("${"third".magenta}  = ${quadruple.third.repr.boldGreen}")
+        println("${"forth".magenta}  = ${quadruple.forth.repr.boldGreen}")
         println("Деконструкция четвёрки")
         withIndent {
             val (num, str, dbl, chr) = quadruple
-            println("${magenta("num")} = ${boldGreen[num]}")
-            println("${magenta("str")} = ${boldGreen[str]}")
-            println("${magenta("dbl")} = ${boldGreen[dbl]}")
-            println("${magenta("chr")} = ${boldGreen[chr]}")
+            println("${"num".magenta} = ${num.repr.boldGreen}")
+            println("${"str".magenta} = ${str.repr.boldGreen}")
+            println("${"dbl".magenta} = ${dbl.repr.boldGreen}")
+            println("${"chr".magenta} = ${chr.repr.boldGreen}")
         }
     }
 }
