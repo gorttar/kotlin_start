@@ -5,10 +5,10 @@ import lib.output.magenta
 import lib.repr.repr
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy.newProxyInstance
-import kotlin.sequences.filter as kFilter
-import kotlin.sequences.forEach as kForEach
-import kotlin.sequences.map as kMap
-import kotlin.sequences.takeWhile as kTakeWhile
+import kotlin.sequences.filter as sFilter
+import kotlin.sequences.forEach as sForEach
+import kotlin.sequences.map as sMap
+import kotlin.sequences.takeWhile as sTakeWhile
 
 inline fun <reified T> T.traced(toString: String): T =
         newProxyInstance(T::class.java.classLoader, arrayOf(T::class.java)) { _, method, args: Array<Any?>? ->
@@ -37,10 +37,10 @@ fun <P1, R> traced(toString: String, f: (P1) -> R) = object : (P1) -> R by f {
     override fun toString() = toString
 }
 
-fun <T, R> Sequence<T>.map(transform: (T) -> R): Sequence<R> = kMap(transform.trace("map"))
-fun <T> Sequence<T>.filter(predicate: (T) -> Boolean): Sequence<T> = kFilter(predicate.trace("filter"))
-fun <T> Sequence<T>.takeWhile(predicate: (T) -> Boolean): Sequence<T> = kTakeWhile(predicate.trace("takeWhile"))
-fun <T> Sequence<T>.forEach(action: (T) -> Unit): Unit = kForEach { t: T ->
+fun <T, R> Sequence<T>.map(transform: (T) -> R): Sequence<R> = sMap(transform.trace("map"))
+fun <T> Sequence<T>.filter(predicate: (T) -> Boolean): Sequence<T> = sFilter(predicate.trace("filter"))
+fun <T> Sequence<T>.takeWhile(predicate: (T) -> Boolean): Sequence<T> = sTakeWhile(predicate.trace("takeWhile"))
+fun <T> Sequence<T>.forEach(action: (T) -> Unit): Unit = sForEach { t: T ->
     trace(
             { "${t.repr.boldGreen} -> forEach ${action.toString().magenta}" },
             { action(t) },
