@@ -4,6 +4,7 @@ import lib.output.boldGreen
 import lib.output.magenta
 import lib.output.withIndent
 import lib.repr.repr
+import lib.trace.trace
 
 fun main() {
     /**пустой список [Int]*/
@@ -18,8 +19,9 @@ fun main() {
     val list3 = listOf(2, 'a', 4, true)
     println("Список чего-то:     ${list3.repr.boldGreen}")
 
-    val l = listOf(2, 1, 3)
-    println("\nОперации со списком ${"l".magenta} = ${l.repr.boldGreen}:")
+    val lNoTrace = listOf(2, 1, 3)
+    val l = lNoTrace.trace("l")
+    println("\nОперации со списком ${"l".magenta} = ${lNoTrace.repr.boldGreen}:")
     withIndent {
         println("Длина списка:                                    ${"l.size".magenta} = ${l.size.repr.boldGreen}")
         println("Содержится ли 2 в списке:                        ${"2 in l".magenta} = ${(2 in l).repr.boldGreen}")
