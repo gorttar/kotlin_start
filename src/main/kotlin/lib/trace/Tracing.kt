@@ -16,6 +16,11 @@ fun <P1, R> trace(toString: String, f: (P1) -> R) = object : (P1) -> R by f {
     override fun toString() = toString
 }
 
+fun <T, R> Iterable<T>.map(transform: (T) -> R): List<R> = iMap(transform.trace("map"))
+fun <T> Iterable<T>.filter(predicate: (T) -> Boolean): List<T> = iFilter(predicate.trace("filter"))
+fun <T> Iterable<T>.takeWhile(predicate: (T) -> Boolean): List<T> = iTakeWhile(predicate.trace("takeWhile"))
+fun <T> Iterable<T>.forEach(action: (T) -> Unit): Unit = iForEach(action.trace("forEach", false))
+
 fun <T, R> Sequence<T>.map(transform: (T) -> R): Sequence<R> = sMap(transform.trace("map"))
 fun <T> Sequence<T>.filter(predicate: (T) -> Boolean): Sequence<T> = sFilter(predicate.trace("filter"))
 fun <T> Sequence<T>.takeWhile(predicate: (T) -> Boolean): Sequence<T> = sTakeWhile(predicate.trace("takeWhile"))
