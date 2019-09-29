@@ -31,8 +31,7 @@ fun main() {
     }.trace("List4")
 
     println("Запускаю цикл по элементам списка List4")
-    list4.tForEach(trace("{ println(...) }")
-    { println("Элемент ${it.repr.boldGreen} получен из ${"List4".magenta}") })
+    list4.tForEach(trace("{ x -> println(...) }")
+    { x -> println("Элемент ${x.repr.boldGreen} получен из ${"List4".magenta}") })
     println("Цикл завершён")
 }
-

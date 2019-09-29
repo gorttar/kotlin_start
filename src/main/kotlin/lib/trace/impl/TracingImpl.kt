@@ -23,17 +23,33 @@ fun <T : Any> trace(t: T, iClass: KClass<T>, toString: String): T = with(iClass)
     } as T
 }
 
-fun <T, R> ((T) -> R).trace(hofName: String, traceResult: Boolean = true): (T) -> R = (
-        if (traceResult) { r: R -> "${r.repr.boldGreen} <- $hofName ${toString().magenta}" }
-        else { _ -> "" }
-        ).let { after ->
-    { t ->
+fun <P1, R> ((P1) -> R).trace(hofName: String, traceResult: Boolean = true): (P1) -> R = rTracer(
+        hofName,
+        traceResult
+).let { after ->
+    { p1 ->
         trace(
-                { "${t.repr.boldGreen} -> $hofName ${toString().magenta}" },
-                { this(t) },
+                { "${p1.repr.boldGreen} -> $hofName ${toString().magenta}" },
+                { this(p1) },
                 after)
     }
 }
+
+fun <P1, P2, R> ((P1, P2) -> R).trace(hofName: String, traceResult: Boolean = true): (P1, P2) -> R = rTracer(
+        hofName,
+        traceResult
+).let { after ->
+    { p1, p2 ->
+        trace(
+                { "${"${p1.repr}, ${p2.repr}".boldGreen} -> $hofName ${toString().magenta}" },
+                { this(p1, p2) },
+                after)
+    }
+}
+
+private fun <R> Function<R>.rTracer(hofName: String, traceResult: Boolean): (R) -> String =
+        if (traceResult) { r -> "${r.repr.boldGreen} <- $hofName ${toString().magenta}" }
+        else { _ -> "" }
 
 private fun <T> trace(beforeMessage: () -> Any?, invocation: () -> T, afterMessage: (T) -> Any?): T =
         println(beforeMessage())

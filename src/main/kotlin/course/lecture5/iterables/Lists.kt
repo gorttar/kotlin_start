@@ -4,6 +4,8 @@ import lib.output.boldGreen
 import lib.output.magenta
 import lib.output.withIndent
 import lib.repr.repr
+import lib.trace.map
+import lib.trace.reduce
 import lib.trace.trace
 
 fun main() {
@@ -40,7 +42,10 @@ fun main() {
             sumSquares.repr.boldGreen
             }")
             println("Произведение кубов через map reduce:            ${"cubesProduct".magenta} = ${
-            l.asSequence().map { it * it * it }.reduce { acc, x -> acc * x }.repr.boldGreen
+            l.asSequence()
+                    .map(trace("{ x -> x * x * x }") { x: Int -> x * x * x })
+                    .reduce(trace("{ cubeProduct, x -> cubeProduct * x }")
+                    { cubeProduct: Int, x: Int -> cubeProduct * x }).repr.boldGreen
             }")
         }
     }

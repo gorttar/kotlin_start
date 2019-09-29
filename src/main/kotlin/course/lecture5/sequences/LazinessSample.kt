@@ -27,8 +27,7 @@ fun main() {
     println("Создана ${seq4.repr.magenta}\n")
 
     println("Запускаю цикл по элементам последовательности $seq4")
-    seq4.forEach(trace("{ println(...) }")
-    { println("Элемент ${it.repr.boldGreen} получен из ${seq4.repr.magenta}") })
+    seq4.forEach(trace("{ x -> println(...) }")
+    { x -> println("Элемент ${x.repr.boldGreen} получен из ${seq4.repr.magenta}") })
     println("Цикл завершён")
 }
-
