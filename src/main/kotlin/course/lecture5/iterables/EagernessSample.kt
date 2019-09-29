@@ -1,4 +1,4 @@
-package course.lecture5.sequences
+package course.lecture5.iterables
 
 import lib.output.boldGreen
 import lib.output.magenta
