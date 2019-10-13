@@ -4,23 +4,16 @@ import lib.output.boldGreen
 import lib.output.magenta
 import lib.repr.repr
 import lib.trace.trace
+import org.mockito.Mockito.mock
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy.newProxyInstance
 import kotlin.reflect.KClass
 
-fun <T : Any> trace(t: T, iClass: KClass<T>, toString: String): T = with(iClass) {
-    require(isInstance(t)) { "Traced instance of type ${t::class.qualifiedName} should implement $qualifiedName" }
-    @Suppress("UNCHECKED_CAST")
-    newProxyInstance(java.classLoader, arrayOf(java)) { _, method, args ->
-        with(method) {
-            when {
-                args != null -> traceInvocation(t, method, args, toString)
-                name == "toString" -> toString
-                name == "iterator" -> traceIteratorInvocation(t, method, toString)
-                else -> traceInvocation(t, method, toString)
-            }
-        }
-    } as T
+fun <T : Any> trace(t: T, tKClass: KClass<T>, toString: String): T = with(tKClass.java) {
+    if (isInterface) cast(newProxyInstance(classLoader, arrayOf(this)) { _, method, args ->
+        method.handleInvocation(t, args, toString)
+    })
+    else mock(this) { it.method.handleInvocation(t, it.arguments, toString) }
 }
 
 fun <P1, R> ((P1) -> R).trace(hofName: String, traceResult: Boolean = true): (P1) -> R = rTracer(
@@ -45,6 +38,13 @@ fun <P1, P2, R> ((P1, P2) -> R).trace(hofName: String, traceResult: Boolean = tr
                 { this(p1, p2) },
                 after)
     }
+}
+
+private fun <T : Any> Method.handleInvocation(t: T, args: Array<Any?>?, toString: String): Any? = when {
+    args != null -> traceInvocation(t, this, args, toString)
+    name == "toString" -> toString
+    name == "iterator" -> traceIteratorInvocation(t, this, toString)
+    else -> traceInvocation(t, this, toString)
 }
 
 private fun <R> Function<R>.rTracer(hofName: String, traceResult: Boolean): (R) -> String =
