@@ -35,7 +35,7 @@ private inline fun <E> Any.repr(
         postfix: String,
         asCollection: Collection<E>,
         processedCompounds: ProcessedCompounds,
-        crossinline transform: ProcessedCompounds.(E) -> String = { it.repr(this) }): String = when (val k = K(this)) {
+        crossinline transform: ProcessedCompounds.(E) -> String = { it.repr(this) }): String = when (val k = IdEqKey(this)) {
     in processedCompounds -> "(cycle ${when (this) {
         is Collection<*> -> "Collection"
         is Map<*, *> -> "Map"
@@ -49,17 +49,17 @@ private inline fun <E> Any.repr(
     }
 }
 
-private class K(private val obj: Any) {
-    override fun equals(other: Any?): Boolean = other is K && obj === other.obj
+class IdEqKey(private val obj: Any) {
+    override fun equals(other: Any?): Boolean = other is IdEqKey && obj === other.obj
     override fun hashCode(): Int = System.identityHashCode(obj)
 }
 
 private class ProcessedCompounds {
     private val counter = generateSequence(1) { it + 1 }.iterator()
-    private val processedCompounds: MutableMap<K, Int> = mutableMapOf()
-    operator fun contains(k: K) = k in processedCompounds
-    operator fun contains(obj: Any) = K(obj) in this
-    fun add(k: K) = processedCompounds.computeIfAbsent(k) { counter.next() }
-    operator fun get(k: K) = processedCompounds[k]
-    operator fun get(obj: Any) = get(K(obj))
+    private val processedCompounds: MutableMap<IdEqKey, Int> = mutableMapOf()
+    operator fun contains(k: IdEqKey) = k in processedCompounds
+    operator fun contains(obj: Any) = IdEqKey(obj) in this
+    fun add(k: IdEqKey) = processedCompounds.computeIfAbsent(k) { counter.next() }
+    operator fun get(k: IdEqKey) = processedCompounds[k]
+    operator fun get(obj: Any) = get(IdEqKey(obj))
 }

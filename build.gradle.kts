@@ -29,8 +29,8 @@ dependencies {
 buildscript {
     repositories { mavenCentral() }
     dependencies {
-        classpath("org.testng:testng:6.13.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
+        classpath(group = "org.testng", name = "testng", version = "6.14.3")
+        classpath(group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "1.3.50")
     }
 }
 
