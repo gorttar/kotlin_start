@@ -1,11 +1,23 @@
 package course.lecture4
 
 fun main() {
-    fun mult(a: Int, b: Int): Int = if (b == 1) a else a + mult(a, b - 1)
+    fun mult(a: Int, b: Int): Int =
+            if (b == 1) {
+                a
+            } else {
+                val prevMult = mult(a, b - 1)
+                a + prevMult
+            }
     println("Простая рекурсия: mult(37, 41) = ${mult(37, 41)}")
 
     fun multTail(a: Int, b: Int): Int {
-        tailrec fun mult(a: Int, b: Int, acc: Int = 0): Int = if (b == 0) acc else mult(a, b - 1, acc + a)
+        tailrec fun mult(a: Int, b: Int, acc: Int = 0): Int =
+                if (b == 0) {
+                    acc
+                } else {
+                    val prevMult = acc + a
+                    mult(a, b - 1, prevMult)
+                }
         return mult(a, b)
     }
     println("Хвостовая рекурсия: multTail(37, 41) = ${multTail(37, 41)}")
