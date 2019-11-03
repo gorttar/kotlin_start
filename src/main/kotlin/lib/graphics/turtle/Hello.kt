@@ -5,6 +5,8 @@ import javafx.scene.paint.Color
 import javafx.stage.Stage
 import tornadofx.*
 
+// привет
+
 class MainView : View() {
     override val root = group { label("Hello World") }
 }
