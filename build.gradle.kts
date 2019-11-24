@@ -26,6 +26,7 @@ dependencies {
     implementation(group = "com.opencsv", name = "opencsv", version =  "5.0")
     implementation(project(":visibility"))
     testImplementation(group = "org.testng", name = "testng", version = "6.14.3")
+    testImplementation(group = "com.willowtreeapps.assertk", name = "assertk-jvm", version = "0.20")
 }
 
 buildscript {
