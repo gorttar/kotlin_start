@@ -10,35 +10,33 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 enum class OperationType { IN, OUT, ERR }
-class IOOperationChunk(val operationType: OperationType, content: ByteArray) {
-    constructor(operationType: OperationType, content: String) : this(operationType, content.toByteArray())
-    val content: ByteArray = content.copyOf()
-        get() = field.copyOf()
-
-    override fun hashCode() = operationType.hashCode() * 31 + content.contentHashCode()
-    override fun toString() = "IOOperationChunk(operationType=$operationType, content=\"${String(content)}\")"
-    override fun equals(other: Any?): Boolean = this === other ||
-            other is IOOperationChunk && operationType == other.operationType && content.contentEquals(other.content)
+data class IOOperationChunk(val operationType: OperationType, val content: String) {
+    override fun toString() = "IOOperationChunk(operationType=$operationType, content=\"$content\")"
 }
 
 class IORecorder {
-    private lateinit var curOperationType: OperationType
-    private var curByteChunk = byteArrayOf()
+    private var curOperationType: OperationType? = null
+    private val curContentOutputStream = ByteArrayOutputStream()
     private val _operationChunks: MutableList<IOOperationChunk> = arrayListOf()
+    private val OperationType.curChunk get() = IOOperationChunk(this, curContentOutputStream.toString())
     val operationChunks: List<IOOperationChunk>
         get() = _operationChunks +
-                if (::curOperationType.isInitialized) listOf(IOOperationChunk(curOperationType, curByteChunk))
-                else emptyList()
+                (curOperationType?.run { listOf(curChunk) } ?: emptyList())
 
-    fun recordByte(byte: Byte, operationType: OperationType) = recordBytes(byteArrayOf(byte), operationType)
-    fun recordBytes(bytes: ByteArray, operationType: OperationType, off: Int = 0, len: Int = bytes.size - off) {
-        if (::curOperationType.isInitialized && curOperationType != operationType) {
-            _operationChunks += IOOperationChunk(curOperationType, curByteChunk)
-            curByteChunk = byteArrayOf()
-        }
-        curOperationType = operationType
-        curByteChunk += bytes.copyOfRange(off, off + len)
-    }
+    fun recordByte(byte: Byte, operationType: OperationType): Unit =
+            operationType.record { curContentOutputStream.write(byte.toInt()) }
+
+    fun recordBytes(bytes: ByteArray, operationType: OperationType, off: Int = 0, len: Int = bytes.size - off): Unit =
+            operationType.record { curContentOutputStream.write(bytes, off, len) }
+
+    private inline fun OperationType.record(recorderBlock: () -> Unit) =
+            curOperationType.takeIf { it != this }?.let {
+                _operationChunks += it.curChunk
+                curContentOutputStream.reset()
+            }.let {
+                curOperationType = this
+                recorderBlock()
+            }
 }
 
 class RecordedInStream(buf: ByteArray, private val ioRecorder: IORecorder) : ByteArrayInputStream(buf) {

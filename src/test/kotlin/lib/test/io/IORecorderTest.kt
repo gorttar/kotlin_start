@@ -97,7 +97,7 @@ class RecordIOTest {
             System.err.print("ErrEnd")
             System.err.println()
         }
-        val cr = if (actual.first().content.dropLast(1).last() == '\r'.toByte()) "\r\n"
+        val cr = if (actual.first().content.takeLast(2).first() == '\r') "\r\n"
         else "\n"
         assertThat(actual).containsExactly(
                 IOOperationChunk(OUT, "Start$cr"),
