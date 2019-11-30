@@ -4,11 +4,8 @@ import java.awt.BasicStroke
 import java.awt.Component
 import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
 import javax.swing.JFrame
 import kotlin.math.roundToInt
-import kotlin.system.exitProcess
 
 /**
  * [Turtle] interface over AWT [Component]
@@ -48,13 +45,6 @@ class AwtTurtle<T: Component>(val component: T) {
 
         val exitOnClose = { it: JFrame ->
             it.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-            it.addWindowListener(object : WindowAdapter() {
-                override fun windowClosing(e: WindowEvent) {
-                    if (e.id == WindowEvent.WINDOW_CLOSING) {
-                        exitProcess(0)
-                    }
-                }
-            })
         }
 
         val weirdDelay = { _: JFrame ->
