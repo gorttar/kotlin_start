@@ -28,6 +28,10 @@ class TurtleTest {
         override fun pen(width: Float) {
             penWidth = width
         }
+
+        override fun turtle(x: Float, y: Float, angle: Float, isVisible: Boolean) {
+            // do nothing
+        }
     }
 
     @Test

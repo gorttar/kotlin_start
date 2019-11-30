@@ -24,12 +24,15 @@ class Turtle(
         fun clear()
         fun line(x1: Float, y1: Float, x2: Float, y2: Float)
         fun pen(width: Float)
+        fun turtle(x: Float, y: Float, angle: Float, isVisible: Boolean)
     }
 
     /**
      * Move forward by number of pixels specified by [distance]
      */
     infix fun fd(distance: Number): Turtle {
+        show(false)
+
         val d = distance.toFloat()
         val r = (angle * PI / 180).toFloat()
         val nx = x + cos(r) * d
@@ -39,6 +42,8 @@ class Turtle(
         }
         x = nx
         y = ny
+
+        show(true)
 
         return this
     }
@@ -52,8 +57,10 @@ class Turtle(
      * Rotate turtle right by [degrees]
      */
     infix fun rt(degrees: Number): Turtle {
+        show(false)
         angle += degrees.toFloat()
         angle %= 360
+        show(true)
         return this
     }
 
@@ -91,6 +98,9 @@ class Turtle(
      */
     fun cs(): Turtle {
         core.clear()
+        show(true)
         return this
     }
+
+    private fun show(isVisible: Boolean) = core.turtle(x, y, angle, isVisible)
 }
