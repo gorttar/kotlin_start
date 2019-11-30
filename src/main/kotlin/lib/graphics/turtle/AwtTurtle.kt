@@ -2,6 +2,7 @@ package lib.graphics.turtle
 
 import java.awt.BasicStroke
 import java.awt.Component
+import java.awt.EventQueue
 import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment
 import javax.swing.JFrame
@@ -64,15 +65,21 @@ class AwtTurtle<T: Component>(val component: T) {
                 private val graphics = component.graphics as Graphics2D
 
                 override fun clear() {
-                    graphics.clearRect(0, 0, component.width, component.height)
+                    EventQueue.invokeAndWait {
+                        graphics.clearRect(0, 0, component.width, component.height)
+                    }
                 }
 
                 override fun line(x1: Float, y1: Float, x2: Float, y2: Float) {
-                    graphics.drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt())
+                    EventQueue.invokeAndWait {
+                        graphics.drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt())
+                    }
                 }
 
                 override fun pen(width: Float) {
-                    graphics.stroke = BasicStroke(width)
+                    EventQueue.invokeAndWait {
+                        graphics.stroke = BasicStroke(width)
+                    }
                 }
             }
     )
