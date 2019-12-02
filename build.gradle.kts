@@ -24,6 +24,7 @@ dependencies {
     implementation(group = "com.nhaarman", name = "mockito-kotlin", version = "1.6.0")
     implementation(project(":visibility"))
     testImplementation(group = "org.testng", name = "testng", version = "6.14.3")
+    implementation(group = "no.tornado", name = "tornadofx", version = "1.7.19")
 }
 
 buildscript {
