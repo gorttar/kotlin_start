@@ -18,7 +18,8 @@ object AwtTurtle {
 
     fun JFrame.initAndCreateTurtle(): Turtle {
         title = "Turtle"
-        setSize(512, 512)
+        val side = 650
+        setSize(side, side)
         isVisible = true
 
         defaultCloseOperation = JFrame.EXIT_ON_CLOSE
