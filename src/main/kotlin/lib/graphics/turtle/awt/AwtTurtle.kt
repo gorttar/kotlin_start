@@ -13,32 +13,33 @@ object AwtTurtle {
      * is displayed immediately at the screen center,
      * and causes program termination upon closing.
      */
-    fun create(): Pair<Turtle, JFrame> {
-        val frame = JFrame().also {
-            it.title = "Turtle"
-            it.setSize(512, 512)
-            it.isVisible = true
+    @Deprecated("use initAndCreateTurtle instead")
+    fun create(): Pair<Turtle, JFrame> = JFrame().let { it.initAndCreateTurtle() to it }
 
-            it.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+    fun JFrame.initAndCreateTurtle(): Turtle {
+        title = "Turtle"
+        setSize(512, 512)
+        isVisible = true
 
-            val screens = GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices
-            val screenRect = screens.first().defaultConfiguration.bounds
-            val frameSize = it.size
-            it.setLocation(
-                    screenRect.x + (screenRect.width - frameSize.width) / 2,
-                    screenRect.y + (screenRect.height - frameSize.height) / 2
-            )
-        }
-        return turtle(frame) to frame
+        defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+
+        val screenRect = GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices.first()
+            .defaultConfiguration.bounds
+        val frameSize = size
+        setLocation(
+            screenRect.x + (screenRect.width - frameSize.width) / 2,
+            screenRect.y + (screenRect.height - frameSize.height) / 2
+        )
+        return turtle()
     }
 
     /**
      * [Turtle] interface over AWT [Component]
      */
-    fun turtle(component: Component): Turtle {
+    fun Component.turtle(): Turtle {
         // Every Graphics in runtime is actually Graphics2D
-        val graphics = component.graphics as Graphics2D
-        val size = component.size
+        val graphics = graphics as Graphics2D
+        val size = size
         return Turtle(
             x = size.width * 0.5f,
             y = size.height * 0.5f,
