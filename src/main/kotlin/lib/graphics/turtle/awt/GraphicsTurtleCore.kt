@@ -1,7 +1,11 @@
 package lib.graphics.turtle.awt
 
 import lib.graphics.turtle.Turtle
-import java.awt.*
+import java.awt.BasicStroke
+import java.awt.Color
+import java.awt.Dimension
+import java.awt.EventQueue.invokeAndWait
+import java.awt.Graphics2D
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -16,29 +20,23 @@ class GraphicsTurtleCore(
 ) : Turtle.Core {
     private val graphics = object {
         // Force all interactions with Graphics2D to happen in  UI thread
-        operator fun invoke(block: Graphics2D.() -> Unit) {
-            EventQueue.invokeAndWait {
-                graphics.block()
-            }
+        operator fun invoke(block: Graphics2D.() -> Unit): Unit = invokeAndWait {
+            graphics.block()
         }
     }
 
-    private var isVisible = false
+    private var isVisible = true
 
-    override fun clear() {
-        graphics { clearRect(0, 0, size.width, size.height) }
-    }
+    override fun clear(): Unit = graphics { clearRect(0, 0, size.width, size.height) }
 
-    override fun line(x1: Float, y1: Float, x2: Float, y2: Float) {
+    override fun line(x1: Float, y1: Float, x2: Float, y2: Float): Unit =
         graphics { drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt()) }
-    }
 
-    override fun pen(width: Float) {
+    override fun pen(width: Float): Unit =
         graphics { stroke = BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) }
-    }
 
-    override fun turtle(x: Float, y: Float, angle: Float, isVisible: Boolean) {
-        if (this.isVisible != isVisible) {
+    override fun turtle(x: Float, y: Float, angle: Float) {
+        if (isVisible) {
             graphics {
                 val oldStroke = stroke
                 stroke = turtle.stroke
@@ -49,7 +47,6 @@ class GraphicsTurtleCore(
                 setPaintMode()
                 stroke = oldStroke
             }
-            this.isVisible = isVisible
         }
     }
 
@@ -71,13 +68,12 @@ class GraphicsTurtleCore(
             graphics.line(pos, last, zero)
         }
 
-        private fun Graphics2D.line(base: Pair<Float, Float>, from: Pair<Double, Double>, to: Pair<Double, Double>) {
+        private fun Graphics2D.line(base: Pair<Float, Float>, from: Pair<Double, Double>, to: Pair<Double, Double>) =
             drawLine(
                 (base.first + from.first).roundToInt(),
                 (base.second + from.second).roundToInt(),
                 (base.first + to.first).roundToInt(),
                 (base.second + to.second).roundToInt()
             )
-        }
     }
 }

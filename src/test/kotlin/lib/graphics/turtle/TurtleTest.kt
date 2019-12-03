@@ -1,6 +1,6 @@
 package lib.graphics.turtle
 
-import org.testng.Assert.*
+import org.testng.Assert.assertEquals
 import org.testng.annotations.Test
 import kotlin.math.roundToInt
 
@@ -29,7 +29,7 @@ class TurtleTest {
             penWidth = width
         }
 
-        override fun turtle(x: Float, y: Float, angle: Float, isVisible: Boolean) {
+        override fun turtle(x: Float, y: Float, angle: Float) {
             // do nothing
         }
     }
