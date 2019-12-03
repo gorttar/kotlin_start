@@ -7,7 +7,7 @@ import kotlin.math.sqrt
 
 fun main() {
     val n = 5
-    val width = 3.0.pow(n) * l
+    val width = 3.0.pow(n) * a
     val height = width * 2 * sqrt(3.0) / 3
     initWindow().turtle()
         .pu() // поднимаем перо (хвост)
@@ -18,10 +18,10 @@ fun main() {
 
 private const val angle = 120
 
-private var l = 2
+private var a = 2
 
 private fun Turtle.l() = lt(angle / 2)
 private fun Turtle.r() = rt(angle)
 private fun Turtle.f(n: Int): Turtle =
     if (n > 0) (n - 1).let { f(it).l().f(it).r().f(it).l().f(it) }
-    else fd(l)
+    else fd(a)
