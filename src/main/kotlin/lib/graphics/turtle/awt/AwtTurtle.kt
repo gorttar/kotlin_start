@@ -8,15 +8,12 @@ import javax.swing.JFrame
 
 object AwtTurtle {
     /**
-     * Create a window (AWT [JFrame]) and a [Turtle] bound to it.
+     * Create a window (AWT [JFrame]).
      * By default, window gets size and title set,
      * is displayed immediately at the screen center,
      * and causes program termination upon closing.
      */
-    @Deprecated("use initAndCreateTurtle instead")
-    fun create(): Pair<Turtle, JFrame> = JFrame().let { it.initAndCreateTurtle() to it }
-
-    fun JFrame.initAndCreateTurtle(): Turtle {
+    fun initWindow(): JFrame = JFrame().apply {
         title = "Turtle"
         val side = 650
         setSize(side, side)
@@ -31,7 +28,6 @@ object AwtTurtle {
             screenRect.x + (screenRect.width - frameSize.width) / 2,
             screenRect.y + (screenRect.height - frameSize.height) / 2
         )
-        return turtle()
     }
 
     /**
