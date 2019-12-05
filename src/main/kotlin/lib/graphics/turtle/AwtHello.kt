@@ -1,6 +1,6 @@
 package lib.graphics.turtle
 
-import lib.graphics.turtle.awt.AwtTurtle.initWindow
+import lib.graphics.turtle.awt.AwtTurtle.createSquareWindow
 import lib.graphics.turtle.awt.AwtTurtle.turtle
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -9,7 +9,7 @@ fun main() {
     val n = 5
     val width = 3.0.pow(n) * a
     val height = width * 2 * sqrt(3.0) / 3
-    initWindow().turtle()
+    createSquareWindow().turtle()
         .pu() // поднимаем перо (хвост)
         .bk(width / 2).lt(90).fd(height / 4).rt(90) // делаем отступ так, чтобы фигура была по центру
         .pd() // опускаем перо (хвост)

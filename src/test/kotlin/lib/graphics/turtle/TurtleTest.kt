@@ -13,7 +13,7 @@ class TurtleTest {
             val y2: Int
     )
 
-    private class TestCore: Turtle.Core {
+    private class TestCore : TurtleCore {
         val lines = mutableListOf<Line>()
         private var penWidth = 1f
 
@@ -21,7 +21,7 @@ class TurtleTest {
             lines.clear()
         }
 
-        override fun line(x1: Float, y1: Float, x2: Float, y2: Float) {
+        override fun line(x1: Double, y1: Double, x2: Double, y2: Double) {
             lines += Line(penWidth, x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt())
         }
 
@@ -29,7 +29,7 @@ class TurtleTest {
             penWidth = width
         }
 
-        override fun turtle(x: Float, y: Float, angle: Float) {
+        override fun turtle(x: Double, y: Double, angle: Double) {
             // do nothing
         }
     }

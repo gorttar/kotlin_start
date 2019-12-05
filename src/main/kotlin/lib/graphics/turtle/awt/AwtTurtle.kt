@@ -6,20 +6,22 @@ import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment
 import javax.swing.JFrame
 
+typealias Window = JFrame
+
 object AwtTurtle {
     /**
-     * Create a window (AWT [JFrame]).
-     * By default, window gets size and title set,
-     * is displayed immediately at the screen center,
-     * and causes program termination upon closing.
+     * Create a [Window] which has
+     * *    [JFrame.width] = [JFrame.height] = [side]
+     * *    [JFrame.title] = [name]
+     * *    is displayed immediately at the first screen center
+     * *    causes program termination upon closing
      */
-    fun initWindow(): JFrame = JFrame().apply {
-        title = "Turtle"
-        val side = 650
+    fun createSquareWindow(side: Int = 650, name: String = "Turtle"): Window = Window().apply {
+        title = name
         setSize(side, side)
         isVisible = true
 
-        defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+        defaultCloseOperation = Window.EXIT_ON_CLOSE
 
         val screenRect = GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices.first()
             .defaultConfiguration.bounds
@@ -38,8 +40,8 @@ object AwtTurtle {
         val graphics = graphics as Graphics2D
         val size = size
         return Turtle(
-            x = size.width * 0.5f,
-            y = size.height * 0.5f,
+            x = size.width * 0.5,
+            y = size.height * 0.5,
             core = GraphicsTurtleCore(graphics, size)
         )
     }

@@ -1,6 +1,6 @@
 package lib.graphics.turtle.awt
 
-import lib.graphics.turtle.Turtle
+import lib.graphics.turtle.TurtleCore
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Dimension
@@ -12,12 +12,12 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 
 /**
- * [Turtle.Core] interface over AWT [Graphics2D]
+ * [TurtleCore] interface over AWT [Graphics2D]
  */
 class GraphicsTurtleCore(
     graphics: Graphics2D,
     private val size: Dimension
-) : Turtle.Core {
+) : TurtleCore {
     private val graphics = object {
         // Force all interactions with Graphics2D to happen in  UI thread
         operator fun invoke(block: Graphics2D.() -> Unit): Unit = invokeAndWait {
@@ -29,13 +29,13 @@ class GraphicsTurtleCore(
 
     override fun clear(): Unit = graphics { clearRect(0, 0, size.width, size.height) }
 
-    override fun line(x1: Float, y1: Float, x2: Float, y2: Float): Unit =
+    override fun line(x1: Double, y1: Double, x2: Double, y2: Double): Unit =
         graphics { drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt()) }
 
     override fun pen(width: Float): Unit =
         graphics { stroke = BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) }
 
-    override fun turtle(x: Float, y: Float, angle: Float) {
+    override fun turtle(x: Double, y: Double, angle: Double) {
         if (isVisible) {
             graphics {
                 val oldStroke = stroke
@@ -55,7 +55,7 @@ class GraphicsTurtleCore(
         private val poly = listOf(-5 to 10, 15 to 0, -5 to -10)
         val stroke = BasicStroke(2f)
 
-        fun draw(graphics: Graphics2D, pos: Pair<Float, Float>, angle: Float) {
+        fun draw(graphics: Graphics2D, pos: Pos, angle: Double) {
             val r = angle * PI / 180
             val s = sin(r)
             val c = cos(r)
@@ -68,12 +68,21 @@ class GraphicsTurtleCore(
             graphics.line(pos, last, zero)
         }
 
-        private fun Graphics2D.line(base: Pair<Float, Float>, from: Pair<Double, Double>, to: Pair<Double, Double>) =
+        private fun Graphics2D.line(base: Pos, from: Pos, to: Pos) {
+            val (fromX, fromY) = base + from
+            val (toX, toY) = base + to
             drawLine(
-                (base.first + from.first).roundToInt(),
-                (base.second + from.second).roundToInt(),
-                (base.first + to.first).roundToInt(),
-                (base.second + to.second).roundToInt()
+                fromX.roundToInt(),
+                fromY.roundToInt(),
+                toX.roundToInt(),
+                toY.roundToInt()
             )
+        }
     }
 }
+
+typealias Pos = Pair<Double, Double>
+
+val Pos.x get() = first
+val Pos.y get() = second
+operator fun Pos.plus(o: Pos): Pos = x + o.x to y + o.y
