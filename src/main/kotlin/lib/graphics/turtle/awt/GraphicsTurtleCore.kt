@@ -60,8 +60,8 @@ class GraphicsTurtleCore(
             val c = cos(snapshot.phi)
             poly
                 .map { (x, y) -> x * c - y * s to x * s + y * c }
-                .zipWithNext()
-                .forEach { (from, to) -> graphics.line(base, from, to) }
+                .zipWithNext { from, to -> graphics.line(base, from, to) }
+                .count()
         }
 
         private fun Graphics2D.line(base: Pos, from: Pos, to: Pos) {
