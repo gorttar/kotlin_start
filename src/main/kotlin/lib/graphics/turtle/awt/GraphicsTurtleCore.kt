@@ -1,7 +1,7 @@
 package lib.graphics.turtle.awt
 
 import lib.graphics.turtle.TurtleCore
-import lib.graphics.turtle.TurtleSnapshot
+import lib.graphics.turtle.TurtleStateView
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Dimension
@@ -17,7 +17,7 @@ import kotlin.math.sin
 class GraphicsTurtleCore(
     graphics: Graphics2D,
     private val size: Dimension,
-    private val snapshot: TurtleSnapshot
+    private val stateView: TurtleStateView
 ) : TurtleCore {
     private val graphics = object {
         // Force all interactions with Graphics2D to happen in  UI thread
@@ -34,7 +34,7 @@ class GraphicsTurtleCore(
     override fun pen(width: Float): Unit =
         graphics { stroke = BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) }
 
-    override fun showTurtle() = snapshot.let {
+    override fun showTurtle() = stateView.let {
         if (it.isVisible) graphics {
             val oldStroke = stroke
             stroke = turtleFigure.stroke
@@ -55,9 +55,9 @@ class GraphicsTurtleCore(
         val stroke = BasicStroke(2f)
 
         fun draw(graphics: Graphics2D) {
-            val base = snapshot.x to snapshot.y
-            val s = sin(snapshot.phi)
-            val c = cos(snapshot.phi)
+            val base = stateView.x to stateView.y
+            val s = sin(stateView.phi)
+            val c = cos(stateView.phi)
             poly
                 .map { (x, y) -> x * c - y * s to x * s + y * c }
                 .zipWithNext { from, to -> graphics.line(base, from, to) }

@@ -8,8 +8,8 @@ import kotlin.math.sin
 /** publishes [TurtleState.Turtle] to package level */
 typealias Turtle = TurtleState.Turtle
 
-/** read-only [TurtleState] snapshot */
-interface TurtleSnapshot {
+/** read-only [TurtleState] view */
+interface TurtleStateView {
     val x: Double
     val y: Double
     val rotation: Double
@@ -25,7 +25,7 @@ class TurtleState(
     rotation: Double = 0.0,
     isDown: Boolean = true,
     isVisible: Boolean = true
-) : TurtleSnapshot {
+) : TurtleStateView {
     override var x = x
         private set
     override var y = y
@@ -45,7 +45,7 @@ class TurtleState(
     class Turtle(
         private val core: TurtleCore,
         private val state: TurtleState = TurtleState()
-    ) : TurtleSnapshot by state {
+    ) : TurtleStateView by state {
         /**
          * Move forward by number of pixels specified by [distance]
          */

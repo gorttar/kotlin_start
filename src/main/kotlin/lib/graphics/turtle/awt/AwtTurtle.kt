@@ -36,7 +36,7 @@ object AwtTurtle {
     /**
      * [Turtle] interface over AWT [Component]
      */
-    fun Component.turtle(): Turtle = TurtleState(size.width * 0.5, size.height * 0.5).let { state ->
+    fun Component.turtle(): Turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
         Turtle(
             // Every Graphics in runtime is actually Graphics2D
             core = GraphicsTurtleCore(graphics as Graphics2D, size, state),
