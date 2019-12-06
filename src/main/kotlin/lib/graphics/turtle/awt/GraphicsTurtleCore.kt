@@ -55,25 +55,22 @@ class GraphicsTurtleCore(
         val stroke = BasicStroke(2f)
 
         fun draw(graphics: Graphics2D) {
-            val base = stateView.x to stateView.y
             val s = sin(stateView.phi)
             val c = cos(stateView.phi)
+            val baseX = stateView.x
+            val baseY = stateView.y
             poly
-                .map { (x, y) -> x * c - y * s to x * s + y * c }
-                .zipWithNext { from, to -> graphics.line(base, from, to) }
-                .count()
+                .map { (x, y) -> baseX + x * c - y * s to baseY + x * s + y * c }
+                .zipWithNext()
+                .forEach { (from, to) -> graphics.line(from, to) }
         }
 
-        private fun Graphics2D.line(base: Pos, from: Pos, to: Pos) {
-            val (fromX, fromY) = base + from
-            val (toX, toY) = base + to
-            drawLine(
-                fromX.roundToInt(),
-                fromY.roundToInt(),
-                toX.roundToInt(),
-                toY.roundToInt()
-            )
-        }
+        private fun Graphics2D.line(from: Pos, to: Pos) = drawLine(
+            from.x.roundToInt(),
+            from.y.roundToInt(),
+            to.x.roundToInt(),
+            to.y.roundToInt()
+        )
     }
 }
 
