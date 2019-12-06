@@ -26,6 +26,11 @@ class GraphicsTurtleCore(
         }
     }
 
+    private val turtleFigure = listOf(0 to 0, -5 to 10, 15 to 0, -5 to -10)
+        .let { it + it.first() }
+        .map { (x, y) -> x.toDouble() to y.toDouble() }
+        .asSequence()
+
     override fun clear(): Unit = graphics { clearRect(0, 0, size.width, size.height) }
 
     override fun line(x1: Double, y1: Double, x2: Double, y2: Double): Unit =
@@ -37,40 +42,32 @@ class GraphicsTurtleCore(
     override fun showTurtle() = stateView.let {
         if (it.isVisible) graphics {
             val oldStroke = stroke
-            stroke = turtleFigure.stroke
+            stroke = BasicStroke(2f)
             setXORMode(Color.WHITE)
 
-            turtleFigure.draw(this)
+            drawFigure()
 
             setPaintMode()
             stroke = oldStroke
         }
     }
 
-    private val turtleFigure = object {
-        private val poly = listOf(0 to 0, -5 to 10, 15 to 0, -5 to -10)
-            .let { it + it.first() }
-            .map { (x, y) -> x.toDouble() to y.toDouble() }
-            .asSequence()
-        val stroke = BasicStroke(2f)
-
-        fun draw(graphics: Graphics2D) {
-            val phi = stateView.phi
-            val base = stateView.x to stateView.y
-            val s = sin(phi)
-            val c = cos(phi)
-            poly
-                .map { (x, y) -> base + (x * c - y * s to x * s + y * c) }
-                .zipWithNext()
-                .forEach { (from, to) -> graphics.line(from, to) }
-        }
-
-        private fun Graphics2D.line(from: Pos, to: Pos) = drawLine(
-            from.x.roundToInt(),
-            from.y.roundToInt(),
-            to.x.roundToInt(),
-            to.y.roundToInt()
-        )
+    private fun Graphics2D.drawFigure() {
+        val phi = stateView.phi
+        val base = stateView.x to stateView.y
+        val s = sin(phi)
+        val c = cos(phi)
+        turtleFigure
+            .map { (x, y) -> base + (x * c - y * s to x * s + y * c) }
+            .zipWithNext()
+            .forEach { (from, to) ->
+                drawLine(
+                    from.x.roundToInt(),
+                    from.y.roundToInt(),
+                    to.x.roundToInt(),
+                    to.y.roundToInt()
+                )
+            }
     }
 }
 
