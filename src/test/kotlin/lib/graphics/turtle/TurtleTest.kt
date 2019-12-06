@@ -29,7 +29,7 @@ class TurtleTest {
             penWidth = width
         }
 
-        override fun turtle(x: Double, y: Double, angle: Double) {
+        override fun showTurtle() {
             // do nothing
         }
     }

@@ -1,6 +1,7 @@
 package lib.graphics.turtle.awt
 
 import lib.graphics.turtle.Turtle
+import lib.graphics.turtle.TurtleState
 import java.awt.Component
 import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment
@@ -35,14 +36,11 @@ object AwtTurtle {
     /**
      * [Turtle] interface over AWT [Component]
      */
-    fun Component.turtle(): Turtle {
-        // Every Graphics in runtime is actually Graphics2D
-        val graphics = graphics as Graphics2D
-        val size = size
-        return Turtle(
-            x = size.width * 0.5,
-            y = size.height * 0.5,
-            core = GraphicsTurtleCore(graphics, size)
+    fun Component.turtle(): Turtle = TurtleState(size.width * 0.5, size.height * 0.5).let { state ->
+        Turtle(
+            // Every Graphics in runtime is actually Graphics2D
+            core = GraphicsTurtleCore(graphics as Graphics2D, size, state),
+            state = state
         )
     }
 }
