@@ -1,6 +1,5 @@
 package lib.graphics.turtle
 
-import lib.graphics.turtle.TurtleState.Turtle
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -15,7 +14,7 @@ interface TurtleStateView {
     val rotation: Double
     val isDown: Boolean
     val isVisible: Boolean
-    val phi get() = rotation * PI / 180
+    val phi: Double get() = rotation * PI / 180
 }
 
 /** represents mutable properties which are readable by everyone while writable by [Turtle] only */
@@ -26,15 +25,15 @@ class TurtleState(
     isDown: Boolean = true,
     isVisible: Boolean = true
 ) : TurtleStateView {
-    override var x = x
+    override var x: Double = x
         private set
-    override var y = y
+    override var y: Double = y
         private set
-    override var rotation = rotation
+    override var rotation: Double = rotation
         private set
-    override var isDown = isDown
+    override var isDown: Boolean = isDown
         private set
-    override var isVisible = isVisible
+    override var isVisible: Boolean = isVisible
         private set
 
     /**
@@ -65,7 +64,7 @@ class TurtleState(
         /**
          * Move backward by number of pixels specified by [distance]
          */
-        infix fun bk(distance: Number) = fd(-distance.toDouble())
+        infix fun bk(distance: Number): Turtle = fd(-distance.toDouble())
 
         /**
          * Rotate turtle right by [degrees]
@@ -80,7 +79,7 @@ class TurtleState(
         /**
          * Rotate turtle left by [degrees]
          */
-        infix fun lt(degrees: Number) = rt(-degrees.toDouble())
+        infix fun lt(degrees: Number): Turtle = rt(-degrees.toDouble())
 
         /**
          * Set width of line drawn by turtle
@@ -96,6 +95,20 @@ class TurtleState(
          * Pen down, i. e. draw when moving
          */
         fun pd(): Turtle = apply { state.isDown = true }
+
+        fun ht(): Turtle = apply {
+            if (isVisible) {
+                core.showTurtle()
+                state.isVisible = false
+            }
+        }
+
+        fun st(): Turtle = apply {
+            if (!isVisible) {
+                state.isVisible = true
+                core.showTurtle()
+            }
+        }
 
         /**
          * Clear screen
