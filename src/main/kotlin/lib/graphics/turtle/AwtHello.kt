@@ -6,19 +6,23 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 fun main() {
-    val n = 5
-    val width = 3.0.pow(n) * a
+    val width = 486.0
     val height = width * 2 * sqrt(3.0) / 3
     createSquareWindow().turtle()
         .pu() // поднимаем перо (хвост)
         .bk(width / 2).lt(90).fd(height / 4).rt(90) // делаем отступ так, чтобы фигура была по центру
         .pd() // опускаем перо (хвост)
-        .run { repeat(3) { f(n).r() } } // рисуем три стороны снежинки Коха
+        .run {
+            (0..5).forEach { n ->
+                a = width / 3.0.pow(n)
+                repeat(3) { f(n).r() }
+            }
+        } // рисуем три стороны снежинки Коха
 }
 
 private const val angle = 120
 
-private var a = 2
+private var a = 2.0
 
 private fun Turtle.l() = lt(angle / 2)
 private fun Turtle.r() = rt(angle)
