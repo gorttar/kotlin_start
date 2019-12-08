@@ -15,16 +15,18 @@ import kotlin.math.sqrt
  * AWT component with [Turtle] interface and buffering
  * (i. e. what's drawn by turtle is not lost upon GUI refresh)
  */
-class CanvasTurtle(size: Dimension): Canvas() {
-    private val buffer = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB)
+class CanvasTurtle(size: Dimension) : Canvas() {
+    private val buffer = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
+        graphics.fillRect(0, 0, size.width, size.height)
+    }
     val turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
         Turtle(
-                core = RepaintHelper(
-                        delegate = GraphicsTurtleCore(buffer.graphics, size, state),
-                        minInterval = Duration.ofMillis(25),
-                        doRepaint = { invokeAndWait { repaint() } }
-                ),
-                state = state
+            core = RepaintHelper(
+                delegate = GraphicsTurtleCore(buffer.graphics, size, state),
+                minInterval = Duration.ofMillis(25),
+                doRepaint = { invokeAndWait { repaint() } }
+            ),
+            state = state
         )
     }
 
@@ -41,22 +43,20 @@ class CanvasTurtle(size: Dimension): Canvas() {
 
 fun main() {
     log("main started")
-    val frame = AwtTurtle.createSquareWindow()
-    val canvas = CanvasTurtle(frame.size)
-    frame.add(canvas)
 
-    val width = 486.0
-    val height = width * 2 * sqrt(3.0) / 3
-    canvas.turtle
-            .pu() // поднимаем перо (хвост)
-            .bk(width / 2).lt(90).fd(height / 4).rt(90) // делаем отступ так, чтобы фигура была по центру
-            .pd() // опускаем перо (хвост)
-            .run {
-                (0..5).forEach { n ->
-                    a = width / 3.0.pow(n)
-                    repeat(3) { f(n).r() }
-                }
-            } // рисуем три стороны снежинки Коха
+    AwtTurtle.createSquareWindow().run {
+        CanvasTurtle(size).also { add(it) }
+    }.turtle.apply {
+        val width = 486.0
+        val height = width * 2 * sqrt(3.0) / 3
+        pu() // поднимаем перо (хвост)
+        bk(width / 2) lt 90 fd height / 4 rt 90 // делаем отступ так, чтобы фигура была по центру
+        pd() // опускаем перо (хвост)
+        (0..5).forEach { n ->
+            a = width / 3.0.pow(n)
+            repeat(3) { f(n).r() } // рисуем три стороны снежинки Коха
+        }
+    }
 
     log("main finished")
 }
