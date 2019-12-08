@@ -3,7 +3,6 @@ package lib.graphics.turtle.awt
 import lib.graphics.turtle.Turtle
 import lib.graphics.turtle.TurtleState
 import java.awt.Component
-import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment
 import javax.swing.JFrame
 
@@ -38,8 +37,7 @@ object AwtTurtle {
      */
     fun Component.turtle(): Turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
         Turtle(
-            // Every Graphics in runtime is actually Graphics2D
-            core = GraphicsTurtleCore(graphics as Graphics2D, size, state),
+            core = GraphicsTurtleCore(graphics, size, state),
             state = state
         )
     }

@@ -6,6 +6,7 @@ import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.EventQueue.invokeAndWait
+import java.awt.Graphics
 import java.awt.Graphics2D
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -15,14 +16,17 @@ import kotlin.math.sin
  * [TurtleCore] interface over AWT [Graphics2D]
  */
 class GraphicsTurtleCore(
-    graphics: Graphics2D,
+    graphics: Graphics,
     private val size: Dimension,
     private val stateView: TurtleStateView
 ) : TurtleCore {
     private val graphics = object {
+        // Every Graphics in runtime is actually Graphics2D
+        private val g2d = graphics as Graphics2D
+
         // Force all interactions with Graphics2D to happen in  UI thread
         operator fun invoke(block: Graphics2D.() -> Unit): Unit = invokeAndWait {
-            graphics.block()
+            g2d.block()
         }
     }
 
