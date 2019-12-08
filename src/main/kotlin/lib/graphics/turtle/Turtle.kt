@@ -45,6 +45,10 @@ class TurtleState(
         private val core: TurtleCore,
         private val state: TurtleState = TurtleState()
     ) : TurtleStateView by state {
+        init {
+            core.showTurtle()
+        }
+
         /**
          * Move forward by number of pixels specified by [distance]
          */
