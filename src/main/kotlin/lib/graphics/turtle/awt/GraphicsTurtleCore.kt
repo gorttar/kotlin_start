@@ -44,7 +44,7 @@ class GraphicsTurtleCore(
     override fun pen(width: Float): Unit =
         graphics { stroke = BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) }
 
-    override fun showTurtle() = stateView.let {
+    override fun showTurtle(): Unit = stateView.let {
         if (it.isVisible) graphics {
             val oldStroke = stroke
             stroke = BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
@@ -78,6 +78,6 @@ class GraphicsTurtleCore(
 
 typealias Pos = Pair<Double, Double>
 
-val Pos.x get() = first
-val Pos.y get() = second
+val Pos.x: Double get() = first
+val Pos.y: Double get() = second
 operator fun Pos.plus(o: Pos): Pos = x + o.x to y + o.y

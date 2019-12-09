@@ -9,12 +9,12 @@ fun main() {
     val width = 486.0
     val height = width * 2 * sqrt(3.0) / 3
     createSquareWindow().turtle().apply {
-        if (!isTurtleVisible) ht()
+//        ht()
         pu() // поднимаем перо (хвост)
         bk(width / 2) lt 90 fd height / 4 rt 90 // делаем отступ так, чтобы фигура была по центру
         pd() // опускаем перо (хвост)
         (0..5).forEach { kochFlake(it) }
-        if (!isTurtleVisible) st()
+        st()
     }
 }
 
@@ -23,7 +23,6 @@ private fun Turtle.kochFlake(n: Int, width: Double = 486.0) {
     repeat(3) { f(n).r() } // рисуем три стороны снежинки Коха
 }
 
-private const val isTurtleVisible = true
 private const val angle = 120
 
 private var a = 2.0
