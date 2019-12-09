@@ -2,7 +2,9 @@ package lib.graphics.turtle.awt
 
 import lib.graphics.turtle.Turtle
 import lib.graphics.turtle.TurtleState
+import lib.graphics.turtle.awt.CanvasTurtle.Companion.turtle
 import java.awt.Canvas
+import java.awt.Container
 import java.awt.Dimension
 import java.awt.EventQueue.invokeAndWait
 import java.awt.Graphics
@@ -19,7 +21,7 @@ class CanvasTurtle(size: Dimension) : Canvas() {
     private val buffer = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
         graphics.fillRect(0, 0, size.width, size.height)
     }
-    val turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
+    val turtle: Turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
         Turtle(
             core = RepaintHelper(
                 delegate = GraphicsTurtleCore(buffer.graphics, size, state),
@@ -39,14 +41,18 @@ class CanvasTurtle(size: Dimension) : Canvas() {
         g.drawImage(buffer, 0, 0, this)
         log("paint finished")
     }
+
+    companion object {
+        fun Container.turtle(): Turtle = run {
+            CanvasTurtle(size).also { add(it) }
+        }.turtle
+    }
 }
 
 fun main() {
     log("main started")
 
-    AwtTurtle.createSquareWindow().run {
-        CanvasTurtle(size).also { add(it) }
-    }.turtle.apply {
+    AwtTurtle.createSquareWindow().turtle().apply {
         val width = 486.0
         val height = width * 2 * sqrt(3.0) / 3
         pu() // поднимаем перо (хвост)
@@ -68,5 +74,5 @@ private var a = 2.0
 private fun Turtle.l() = lt(angle / 2)
 private fun Turtle.r() = rt(angle)
 private fun Turtle.f(n: Int): Turtle =
-        if (n > 0) (n - 1).let { f(it).l().f(it).r().f(it).l().f(it) }
-        else fd(a)
+    if (n > 0) (n - 1).let { f(it).l().f(it).r().f(it).l().f(it) }
+    else fd(a)
