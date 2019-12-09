@@ -20,15 +20,11 @@ class GraphicsTurtleCore(
     private val size: Dimension,
     private val stateView: TurtleStateView
 ) : TurtleCore {
-    private val graphics = object {
-        // Every Graphics in runtime is actually Graphics2D
-        private val g2d = graphics as Graphics2D
+    // Every Graphics in runtime is actually Graphics2D
+    private val graphics = graphics as Graphics2D
 
-        // Force all interactions with Graphics2D to happen in  UI thread
-        operator fun invoke(block: Graphics2D.() -> Unit): Unit = invokeAndWait {
-            g2d.block()
-        }
-    }
+    // Force all interactions with Graphics2D to happen in  UI thread
+    private operator fun Graphics2D.invoke(block: Graphics2D.() -> Unit) = invokeAndWait { block() }
 
     private val turtleFigure = listOf(0 to 0, -5 to 10, 15 to 0, -5 to -10)
         .let { it + it.first() }
@@ -37,8 +33,13 @@ class GraphicsTurtleCore(
 
     override fun clear(): Unit = graphics { clearRect(0, 0, size.width, size.height) }
 
-    override fun line(x1: Double, y1: Double, x2: Double, y2: Double): Unit =
-        graphics { drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt()) }
+    override fun line(x1: Double, y1: Double, x2: Double, y2: Double): Unit = graphics {
+        color.let {
+            color = Color.BLACK
+            drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt())
+            color = it
+        }
+    }
 
     override fun pen(width: Float): Unit =
         graphics { stroke = BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) }
@@ -46,8 +47,8 @@ class GraphicsTurtleCore(
     override fun showTurtle() = stateView.let {
         if (it.isVisible) graphics {
             val oldStroke = stroke
-            stroke = BasicStroke(2f)
-            setXORMode(Color.WHITE)
+            stroke = BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+            setXORMode(Color.BLACK)
 
             drawFigure()
 
