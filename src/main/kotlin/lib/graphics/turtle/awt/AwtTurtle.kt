@@ -32,9 +32,7 @@ object AwtTurtle {
         )
     }
 
-    /**
-     * [Turtle] interface over AWT [Component]
-     */
+    /** [Turtle] over [Component] */
     fun Component.turtle(): Turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
         Turtle(
             core = GraphicsTurtleCore(graphics, size, state),

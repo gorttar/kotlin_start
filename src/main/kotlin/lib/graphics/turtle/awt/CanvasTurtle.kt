@@ -2,10 +2,9 @@ package lib.graphics.turtle.awt
 
 import lib.graphics.turtle.Turtle
 import lib.graphics.turtle.TurtleState
-import lib.graphics.turtle.awt.CanvasTurtle.Companion.turtle
+import lib.graphics.turtle.awt.CanvasTurtle.turtle
 import java.awt.Canvas
 import java.awt.Container
-import java.awt.Dimension
 import java.awt.EventQueue.invokeAndWait
 import java.awt.Graphics
 import java.awt.image.BufferedImage
@@ -13,39 +12,31 @@ import java.time.Duration
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-/**
- * AWT component with [Turtle] interface and buffering
- * (i. e. what's drawn by turtle is not lost upon GUI refresh)
- */
-class CanvasTurtle(size: Dimension) : Canvas() {
-    private val buffer = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).apply {
-        graphics.fillRect(0, 0, size.width, size.height)
-    }
-    val turtle: Turtle = TurtleState(x = size.width * 0.5, y = size.height * 0.5).let { state ->
+object CanvasTurtle {
+    /** buffered [Turtle] over [Container] */
+    fun Container.turtle(): Turtle = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB).let { image ->
+        val imageCanvas = object : Canvas() {
+            override fun paint(g: Graphics) {
+                log("paint started")
+                g.drawImage(image, 0, 0, this)
+                log("paint finished")
+            }
+        }.also {
+            add(it)
+            it.size = size
+        }
+
+        image.graphics.fillRect(0, 0, size.width, size.height)
+
+        val state = TurtleState(x = size.width * 0.5, y = size.height * 0.5)
         Turtle(
-            core = RepaintHelper(
-                delegate = GraphicsTurtleCore(buffer.graphics, size, state),
+            core = RepaintCoreDecorator(
+                delegate = GraphicsTurtleCore(image.graphics, size, state),
                 minInterval = Duration.ofMillis(25),
-                doRepaint = { invokeAndWait { repaint() } }
+                doRepaint = { invokeAndWait(imageCanvas::repaint) }
             ),
             state = state
         )
-    }
-
-    init {
-        setSize(size)
-    }
-
-    override fun paint(g: Graphics) {
-        log("paint started")
-        g.drawImage(buffer, 0, 0, this)
-        log("paint finished")
-    }
-
-    companion object {
-        fun Container.turtle(): Turtle = run {
-            CanvasTurtle(size).also { add(it) }
-        }.turtle
     }
 }
 

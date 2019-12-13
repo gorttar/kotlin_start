@@ -10,11 +10,11 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Triggers [doRepaint] after wrapped [delegate] operations.
  * Caps [doRepaint] calls frequency to once in [minInterval].
  */
-class RepaintHelper(
+class RepaintCoreDecorator(
     private val delegate: TurtleCore,
     private val minInterval: Duration,
     private val doRepaint: () -> Unit
-): TurtleCore {
+) : TurtleCore {
     private val timer = Executors.newSingleThreadScheduledExecutor()
     private val paintScheduled = AtomicBoolean(false)
     private val paintTask = Runnable {
