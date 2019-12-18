@@ -6,6 +6,7 @@ import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.EventQueue.invokeAndWait
+import java.awt.Graphics
 import java.awt.Graphics2D
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -15,16 +16,15 @@ import kotlin.math.sin
  * [TurtleCore] interface over AWT [Graphics2D]
  */
 class GraphicsTurtleCore(
-    graphics: Graphics2D,
+    graphics: Graphics,
     private val size: Dimension,
     private val stateView: TurtleStateView
 ) : TurtleCore {
-    private val graphics = object {
-        // Force all interactions with Graphics2D to happen in  UI thread
-        operator fun invoke(block: Graphics2D.() -> Unit): Unit = invokeAndWait {
-            graphics.block()
-        }
-    }
+    // Every Graphics in runtime is actually Graphics2D
+    private val graphics = graphics as Graphics2D
+
+    // Force all interactions with Graphics2D to happen in  UI thread
+    private operator fun Graphics2D.invoke(block: Graphics2D.() -> Unit) = invokeAndWait { block() }
 
     private val turtleFigure = listOf(0 to 0, -5 to 10, 15 to 0, -5 to -10)
         .let { it + it.first() }
@@ -33,8 +33,13 @@ class GraphicsTurtleCore(
 
     override fun clear(): Unit = graphics { clearRect(0, 0, size.width, size.height) }
 
-    override fun line(x1: Double, y1: Double, x2: Double, y2: Double): Unit =
-        graphics { drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt()) }
+    override fun line(x1: Double, y1: Double, x2: Double, y2: Double): Unit = graphics {
+        color.let {
+            color = Color.BLACK
+            drawLine(x1.roundToInt(), y1.roundToInt(), x2.roundToInt(), y2.roundToInt())
+            color = it
+        }
+    }
 
     override fun pen(width: Float): Unit =
         graphics { stroke = BasicStroke(width, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) }
@@ -42,8 +47,8 @@ class GraphicsTurtleCore(
     override fun showTurtle(): Unit = stateView.let {
         if (it.isVisible) graphics {
             val oldStroke = stroke
-            stroke = BasicStroke(2f)
-            setXORMode(Color.WHITE)
+            stroke = BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+            setXORMode(Color.BLACK)
 
             drawFigure()
 
