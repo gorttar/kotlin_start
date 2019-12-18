@@ -1,7 +1,7 @@
 package lib.graphics.turtle
 
-import lib.graphics.turtle.awt.AwtTurtle.createSquareWindow
-import lib.graphics.turtle.awt.AwtTurtle.turtle
+import lib.graphics.turtle.awt.createSquareWindow
+import lib.graphics.turtle.awt.turtle
 import kotlin.math.pow
 import kotlin.math.sqrt
 
