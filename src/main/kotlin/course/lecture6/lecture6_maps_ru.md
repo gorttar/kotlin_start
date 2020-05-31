@@ -170,7 +170,7 @@ fun getGrade(name: String, names: List<String>, grades: List<String>): String {
 * получение значения по ключу или значения по умолчанию  
 `nameToGrade.getOrDefault("Ana", "absent") => "B"`  
 `nameToGrade.getOrDefault("Alex", "absent") => "absent"`
-* проверка, что ключ есть в карте
+* проверка, что ключ есть в карте  
 `"Ana" in nameToGrade => true`  
 `"Alex" in nameToGrade => false`
 #### Операции с изменяемыми картами. Пример [тут](mutableMapOperations.kt)
