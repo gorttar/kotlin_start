@@ -166,7 +166,7 @@ fun getGrade(name: String, names: List<String>, grades: List<String>): String {
 `nameToGrade["Alex"] => null`
 * форсированное получение значения по ключу  
 `nameToGrade.getValue("Ana") => "B"`  
-`nameToGradegetValue("Alex") => упадёт с ошибкой: "Key Alex is missing in the map."`
+`nameToGrade.getValue("Alex") => упадёт с ошибкой: "Key Alex is missing in the map."`
 * получение значения по ключу или значения по умолчанию  
 `nameToGrade.getOrDefault("Ana", "absent") => "B"`  
 `nameToGrade.getOrDefault("Alex", "absent") => "absent"`
