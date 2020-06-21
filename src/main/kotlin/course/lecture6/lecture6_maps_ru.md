@@ -179,3 +179,68 @@ fun getGrade(name: String, names: List<String>, grades: List<String>): String {
 `nameToGrade["Alex"] = "A-"`
 * удаление записи  
 `nameToGrade.remove("Alex")`
+#### Свойства карт
+* значения
+  * любого типа
+  * могут дублироваться в пределах карты
+  * могут быть списками, массивами и даже другими картами
+* ключи
+  * должны быть уникальными (не должно быть двух равных)
+  * желательно, чтобы они были неизменяемыми, если изменяемые, то изменения не должны менять результаты **equals**/**hashCode**
+  * желательно не использовать числа с плавающей запятой (Folat, Double, BigDecimal), так как их сложно проверять на равенство (два числа могут отличаться очень мало, но при этом не быть равными)
+  * обычно не сохраняют порядок добавления ключей (исключение Linked*Map)
+#### Мемоизация на примере чисел Фибоначчи
+Неэффективное решение "в лоб"
+```kotlin
+fun fib(n: Int): Int = when(n) {
+    1 -> 1
+    2 -> 2
+    else -> fib(n - 1) + fib(n - 2)
+}
+```
+* два базовых случая
+* два рекурсивных вызова
+* работает медленно, так как с ростом n на 1 количество рекурсивных вызовов растёт примерно вдвое. Например для n = 40 вычисления уже занимают несколько секунд, а для 50 ответа вообще не дождёшься
+* проблема в том, что для одного и того же n значение вычисляется много раз
+* может быть как-то запоминать уже вычисленные значения?
+
+Фибоначчи с запоминанием в карте (мемоизация)
+```kotlin
+fun fibEfficient(n: Int): BigInteger {
+    fun fibMemo(n: Int, map: MutableMap<Int, BigInteger>): BigInteger = map[n] ?: when (n) {
+        1 -> BigInteger.ONE
+        2 -> 2.toBigInteger()
+        else -> fibMemo(n - 1, map) + fibMemo(n - 2, map)
+    }.also { map[n] = it }
+    return fibMemo(n, mutableMapOf())
+}
+```
+* сначала смотрим, есть ли уже вычисленное значение для данного n в карте
+* добавляем значения в словарь по мере вычислений
+#### Глобальные переменные
+* могут быть опасными в использовании
+  * доступны везде и неявно передаются между вызвами функций
+  * позволяют сторонние изменения, которые влияют на вычисления
+* но при этом могут быть полезны для трекинга происходящего в функции
+* пример: подсчёт количества вызовов при вычислении рекурсивных функций
+```kotlin
+var numFibCalls = 0
+
+fun fibTracked(n: Int): BigInteger = when (n) {
+    1 -> BigInteger.ONE
+    2 -> 2.toBigInteger()
+    else -> fibTracked(n - 1) + fibTracked(n - 2)
+}.also { numFibCalls++ }
+
+var numFibEffCalls = 0
+
+fun fibEffTracked(n: Int): BigInteger {
+    fun fibMemo(n: Int, map: MutableMap<Int, BigInteger>): BigInteger = (map[n] ?: when (n) {
+        1 -> BigInteger.ONE
+        2 -> 2.toBigInteger()
+        else -> fibMemo(n - 1, map) + fibMemo(n - 2, map)
+    }.also { map[n] = it }).also { numFibEffCalls++ }
+
+    return fibMemo(n, mutableMapOf())
+}
+```
