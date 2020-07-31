@@ -1,6 +1,6 @@
 package course.ps2
 
-import lib.test.FAIL
+import org.gorttar.test.FAIL
 
 /**
  * Необходимо написать функцию, которая находит минимальный фиксированный месячный платёж, достаточный для погашения

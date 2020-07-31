@@ -1,6 +1,6 @@
 package course.ps2
 
-import lib.test.FAIL
+import org.gorttar.test.FAIL
 
 /**
  * В предыдущей задаче месячный платёж был кратен 10 рублям. Зачем это было сделано? Ты можешь попробовать запустить

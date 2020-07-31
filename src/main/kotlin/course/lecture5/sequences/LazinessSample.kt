@@ -1,13 +1,8 @@
 package course.lecture5.sequences
 
-import lib.output.boldGreen
-import lib.output.magenta
-import lib.trace.filter
-import lib.trace.forEach
-import lib.trace.map
-import lib.trace.sequenceOf
-import lib.trace.takeWhile
-import lib.trace.trace
+import org.gorttar.output.boldGreen
+import org.gorttar.output.magenta
+import org.gorttar.trace.*
 
 fun main() {
     println("Создаю первую последовательность")

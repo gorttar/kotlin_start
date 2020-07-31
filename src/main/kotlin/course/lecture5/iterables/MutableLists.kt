@@ -1,10 +1,10 @@
 package course.lecture5.iterables
 
-import lib.output.boldGreen
-import lib.output.magenta
-import lib.output.withIndent
-import lib.repr.repr
-import lib.trace.trace
+import org.gorttar.output.boldGreen
+import org.gorttar.output.magenta
+import org.gorttar.output.withIndent
+import org.gorttar.repr.repr
+import org.gorttar.trace.trace
 
 fun main() {
     val lnt = mutableListOf(2, 1, 3)

@@ -1,6 +1,6 @@
 package course.ps1
 
-import lib.test.FAIL
+import org.gorttar.test.FAIL
 
 /**
  * Assume [s] is a string of lower case characters.

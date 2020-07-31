@@ -1,6 +1,6 @@
 package course.lecture4.imports.circle
 
-import lib.output.boldGreen
+import org.gorttar.output.boldGreen
 import kotlin.reflect.KProperty
 
 private operator fun <T> (() -> T).getValue(thisRef: Any?, property: KProperty<*>) = this()

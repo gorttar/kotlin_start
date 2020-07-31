@@ -1,9 +1,9 @@
 package course.ps2
 
-import lib.test.orElse
-import lib.test.selfNamedPassTo
-import lib.test.shouldBe
-import lib.test.withTimeLimit
+import org.gorttar.test.orElse
+import org.gorttar.test.selfNamedPassTo
+import org.gorttar.test.shouldBe
+import org.gorttar.test.withTimeLimit
 
 /**
  * запусти, чтобы протестировать функцию [payInAYearBisection]

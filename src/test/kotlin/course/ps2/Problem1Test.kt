@@ -1,7 +1,7 @@
 package course.ps2
 
-import lib.test.selfNamedPassTo
-import lib.test.shouldBeEqualTo
+import org.gorttar.test.selfNamedPassTo
+import org.gorttar.test.shouldBeEqualTo
 
 /**
  * запусти, чтобы протестировать функцию [payMinimalAYear]
@@ -316,12 +316,7 @@ private val payMinimalCases = listOf(
 
 private class PayMinimalArgs(val balance: Double, val annualInterestRate: Double, val monthlyPaymentRate: Double) {
     @Suppress("MemberVisibilityCanBePrivate")
-    val str by lazy {
-        "Test: " +
-                "balance=$balance, " +
-                "annualInterestRate=$annualInterestRate, " +
-                "monthlyPaymentRate=$monthlyPaymentRate"
-    }
+    val str = "Test: balance=$balance, annualInterestRate=$annualInterestRate, monthlyPaymentRate=$monthlyPaymentRate"
 
     override fun toString(): String = str
 }
@@ -329,8 +324,9 @@ private class PayMinimalArgs(val balance: Double, val annualInterestRate: Double
 @Suppress("MemberVisibilityCanBePrivate")
 private class PayMinimalCase(balance: Double, annualInterestRate: Double, monthlyPaymentRate: Double, val expected: String) {
     val args: PayMinimalArgs = PayMinimalArgs(balance, annualInterestRate, monthlyPaymentRate)
+
     @Suppress("unused")
-    val repr by lazy { "PayMinimalCase($balance, $annualInterestRate, $monthlyPaymentRate, \"$expected\")" }
+    val repr = "PayMinimalCase($balance, $annualInterestRate, $monthlyPaymentRate, \"$expected\")"
 
     operator fun component1(): PayMinimalArgs = args
     operator fun component2(): String = expected

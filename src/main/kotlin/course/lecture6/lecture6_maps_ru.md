@@ -100,7 +100,7 @@ private val Function<*>.refName: String get() = "::${(this as? KCallable<*>)?.na
   * `fun <T> Iterable<T>.takeWhile(predicate: (T) -> Boolean): List<T>`
   * `fun <T> Sequence<T>.takeWhile(predicate: (T) -> Boolean): Sequence<T> // обрати внимание, что результат не List, а Sequence`
 * `takeLastWhile` - создаёт новый объект, в который помещает элементы исходного с конца пока для них выполняется `predicate`. Не для Sequence
-* `dropWhile` - создаёт новый объект, в который помещает элементы исходного, начиная с первого, для которого не выполняется `predicate`.
+* `dropWhile` - создаёт новый объект, помещая в него элементы исходного, начиная с первого, для которого не выполняется `predicate`.
 * `dropLastWhile` - не для Sequence
 * `filter` - создаёт новый объект, из элементов сходного для которых выполняется `predicate`. Пример [тут](filterSample.kt)
   * `fun String.filter(predicate: (Char) -> Boolean): String`

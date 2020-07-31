@@ -1,14 +1,10 @@
 package course.lecture5.iterables
 
-import lib.output.boldGreen
-import lib.output.magenta
-import lib.repr.repr
-import lib.trace.filter
-import lib.trace.listOf
-import lib.trace.map
-import lib.trace.takeWhile
-import lib.trace.trace
-import lib.trace.forEach as tForEach
+import org.gorttar.output.boldGreen
+import org.gorttar.output.magenta
+import org.gorttar.repr.repr
+import org.gorttar.trace.*
+import org.gorttar.trace.forEach as tForEach
 
 fun main() {
     println("Создаю перввый список")

@@ -1,7 +1,7 @@
 package course.ps2
 
-import lib.test.selfNamedPassTo
-import lib.test.shouldBeEqualTo
+import org.gorttar.test.selfNamedPassTo
+import org.gorttar.test.shouldBeEqualTo
 
 /**
  * запусти, чтобы протестировать функцию [payInAYearExhaustive]

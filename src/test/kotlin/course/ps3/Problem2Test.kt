@@ -1,10 +1,10 @@
 package course.ps3
 
-import lib.repr.repr
-import lib.test.orElse
-import lib.test.randomAlphabetPartition
-import lib.test.selfNamedPassTo
-import lib.test.shouldBe
+import org.gorttar.repr.repr
+import org.gorttar.test.orElse
+import org.gorttar.test.randomAlphabetPartition
+import org.gorttar.test.selfNamedPassTo
+import org.gorttar.test.shouldBe
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextInt
 

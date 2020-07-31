@@ -1,7 +1,7 @@
 package course.ps3
 
-import lib.helpers.alphabet
-import lib.test.FAIL
+import org.gorttar.helpers.alphabet
+import org.gorttar.test.FAIL
 
 /**
  * Игра виселица

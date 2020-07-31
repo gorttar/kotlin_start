@@ -1,9 +1,9 @@
 package course.ps1
 
-import lib.repr.repr
-import lib.test.NamedCase.Companion.namedAs
-import lib.test.NamedCaseWithBody.Companion.passTo
-import lib.test.shouldBeEqualTo
+import org.gorttar.repr.repr
+import org.gorttar.test.NamedCase.Companion.namedAs
+import org.gorttar.test.NamedCaseWithBody.Companion.passTo
+import org.gorttar.test.shouldBeEqualTo
 import kotlin.random.Random
 
 /**

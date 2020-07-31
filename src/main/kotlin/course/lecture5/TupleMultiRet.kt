@@ -1,8 +1,8 @@
 package course.lecture5
 
-import lib.output.boldGreen
-import lib.output.magenta
-import lib.repr.repr
+import org.gorttar.output.boldGreen
+import org.gorttar.output.magenta
+import org.gorttar.repr.repr
 
 fun main() {
     val (quotient, remainder) = quotientRemainder(x, y)

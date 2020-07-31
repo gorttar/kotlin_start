@@ -1,8 +1,8 @@
 package course.ps3
 
-import lib.test.randomAlphabetPartition
-import lib.test.selfNamedPassTo
-import lib.test.shouldBeEqualTo
+import org.gorttar.test.randomAlphabetPartition
+import org.gorttar.test.selfNamedPassTo
+import org.gorttar.test.shouldBeEqualTo
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextInt
 

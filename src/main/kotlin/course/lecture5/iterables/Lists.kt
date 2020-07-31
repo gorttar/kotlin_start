@@ -1,14 +1,10 @@
 package course.lecture5.iterables
 
-import lib.output.boldGreen
-import lib.output.magenta
-import lib.output.withIndent
-import lib.repr.repr
-import lib.trace.listOf
-import lib.trace.map
-import lib.trace.reduce
-import lib.trace.trace
-import lib.trace.unTraced
+import org.gorttar.output.boldGreen
+import org.gorttar.output.magenta
+import org.gorttar.output.withIndent
+import org.gorttar.repr.repr
+import org.gorttar.trace.*
 
 fun main() {
     /**пустой список [Int]*/

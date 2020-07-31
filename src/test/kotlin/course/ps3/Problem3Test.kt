@@ -1,9 +1,9 @@
 package course.ps3
 
-import lib.test.NamedCase.Companion.namedAs
-import lib.test.NamedCaseWithBody.Companion.passTo
-import lib.test.randomAlphabetPartition
-import lib.test.shouldBeEqualTo
+import org.gorttar.test.NamedCase.Companion.namedAs
+import org.gorttar.test.NamedCaseWithBody.Companion.passTo
+import org.gorttar.test.randomAlphabetPartition
+import org.gorttar.test.shouldBeEqualTo
 
 /**
  * Третьей напишите функцию [getAvailableLetters]. Требования к функции описаны в её документации.
