@@ -20,22 +20,21 @@ internal val PropName.ordinalStr: String get() = "$number".let { "$it${lastDigit
 
 internal const val buck: String = "$"
 
-internal fun writeSrc(
+internal fun writeMainSrc(
     srcName: String,
     content: String,
-    fileHeader: String = ""
+    fileHeader: String? = null
 ): Unit = writeSrc(srcPath = srcPath, srcName = srcName, content = content, fileHeader = fileHeader)
 
 internal fun writeSrc(
     srcPath: String,
     srcName: String,
     content: String,
-    fileHeader: String = ""
+    fileHeader: String? = null
 ): Unit = "$srcPath/$srcName.kt".let(::FileOutputStream).let(::PrintStream).use {
     it.print(
         """
-        |$fileHeader
-        |/**
+        |${fileHeader?.let { "$fileHeader\n|" } ?: ""}/**
         | * !!!This file is auto generated! All changes to it will be overwritten after running generator!!!
         | */
         |

@@ -1,8 +1,8 @@
 package org.gorttar.data.heterogeneous.list.generators
 
-fun main(): Unit = writeSrc(
-    "Destructuring",
-    """
+fun main(): Unit = writeMainSrc(
+    srcName = "Destructuring",
+    content = """
     |${(minPropName..maxPropName).joinToString("\n\n") { propName ->
         val typeName = propName.typeName
         val typesBefore = (minPropName until propName).map { "*" } + typeName
@@ -25,7 +25,7 @@ fun main(): Unit = writeSrc(
             """.trimMargin()
         }}""".trimMargin()
     }}""".trimMargin(),
-    """
+    fileHeader = """
     |@file:Suppress("NOTHING_TO_INLINE")
     |
     """.trimMargin()

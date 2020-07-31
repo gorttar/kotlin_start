@@ -1,8 +1,8 @@
 package org.gorttar.data.heterogeneous.list.generators
 
-fun main(): Unit = writeSrc(
-    "ExtensionProperties",
-    """
+fun main(): Unit = writeMainSrc(
+    srcName = "ExtensionProperties",
+    content = """
     |${(minPropName..maxPropName).joinToString("\n\n") { propName ->
         val typeName = propName.typeName
         val typesBefore = (minPropName until propName).map { "*" } + typeName

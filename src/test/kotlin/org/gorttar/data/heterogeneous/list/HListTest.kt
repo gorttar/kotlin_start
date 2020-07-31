@@ -26,7 +26,10 @@ class HListTest {
         dynamicTests(
             Case(HNil, "$it[]"),
             Case(xs1, "$it[$a]"),
-            Case(xs10, "$it[$a, $b, $c, $d, $e, $f, $g, $h, $i, $j]")
+            Case(
+                xs26,
+                "$it[$a, $b, $c, $d, $e, $f, $g, $h, $i, $j, $k, $l, $m, $n, $o, $p, $q, $r, $s, $t, $u, $v, $w, $x, $y, $z]"
+            )
         ) { assertAll { assertThat(xs.toString()).isEqualTo(expected) } }
     }
 
@@ -41,7 +44,7 @@ class HListTest {
 }
 
 private val xs26Expected: HList26<
-    Byte, Short, Long, Int, Char, BigInteger, Double, Float, BigDecimal, String,
-    List<Byte>, List<Short>, List<Long>, List<Int>, List<Char>, List<BigInteger>, List<Double>, List<Float>, List<BigDecimal>, List<String>,
-    Set<Byte>, Set<Short>, Set<Long>, Set<Int>, Set<Char>, Set<BigInteger>
+    Byte, Short, Long, Int, Char, BigInteger, Double, Float, BigDecimal,
+    String, List<Byte>, List<Short>, List<Long>, List<Int>, List<Char>, List<BigInteger>, List<Double>, List<Float>,
+    List<BigDecimal>, List<String>, Set<Byte>, Set<Short>, Set<Long>, Set<Int>, Set<Char>, Set<BigInteger>
     > = a.`+`(b) + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u + v + w + x + y + z
