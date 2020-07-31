@@ -8,78 +8,78 @@ import org.junit.jupiter.api.Test
 
 class IORecorderTest {
     @Test
-    fun `operationChunks empty recorder`() = assertThat(IORecorder().operationChunks).isEmpty()
+    fun `operationChunks empty recorder`() = assertThat(IORecorder().chunks).isEmpty()
 
     @Test
     fun recordByte() = IORecorder().run {
         recordByte('a'.toByte(), IN)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, "a"))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, "a"))
 
         recordByte('b'.toByte(), IN)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, "ab"))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, "ab"))
 
         recordByte('c'.toByte(), OUT)
-        assertThat(operationChunks).containsExactly(
-                IOOperationChunk(IN, "ab"),
-                IOOperationChunk(OUT, "c")
+        assertThat(chunks).containsExactly(
+            IOOperationChunk(IN, "ab"),
+            IOOperationChunk(OUT, "c")
         )
 
         recordByte('d'.toByte(), ERR)
-        assertThat(operationChunks).containsExactly(
-                IOOperationChunk(IN, "ab"),
-                IOOperationChunk(OUT, "c"),
-                IOOperationChunk(ERR, "d")
+        assertThat(chunks).containsExactly(
+            IOOperationChunk(IN, "ab"),
+            IOOperationChunk(OUT, "c"),
+            IOOperationChunk(ERR, "d")
         )
     }
 
     @Test
     fun `recordBytes empty array`() = IORecorder().run {
         recordBytes(byteArrayOf(), IN)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, ""))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, ""))
 
         recordBytes(byteArrayOf(), IN)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, ""))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, ""))
 
         recordBytes(byteArrayOf(), OUT)
-        assertThat(operationChunks).containsExactly(
-                IOOperationChunk(IN, ""),
-                IOOperationChunk(OUT, "")
+        assertThat(chunks).containsExactly(
+            IOOperationChunk(IN, ""),
+            IOOperationChunk(OUT, "")
         )
 
         recordBytes(byteArrayOf(), ERR)
-        assertThat(operationChunks).containsExactly(
-                IOOperationChunk(IN, ""),
-                IOOperationChunk(OUT, ""),
-                IOOperationChunk(ERR, "")
+        assertThat(chunks).containsExactly(
+            IOOperationChunk(IN, ""),
+            IOOperationChunk(OUT, ""),
+            IOOperationChunk(ERR, "")
         )
     }
 
     @Test
     fun `recordBytes non empty array`() = IORecorder().run {
         recordBytes("ab".toByteArray(), IN)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, "ab"))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, "ab"))
 
         recordBytes("cd".toByteArray(), IN)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, "abcd"))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, "abcd"))
 
         recordBytes("ef".toByteArray(), OUT)
-        assertThat(operationChunks).containsExactly(
-                IOOperationChunk(IN, "abcd"),
-                IOOperationChunk(OUT, "ef")
+        assertThat(chunks).containsExactly(
+            IOOperationChunk(IN, "abcd"),
+            IOOperationChunk(OUT, "ef")
         )
 
         recordBytes("gh".toByteArray(), ERR)
-        assertThat(operationChunks).containsExactly(
-                IOOperationChunk(IN, "abcd"),
-                IOOperationChunk(OUT, "ef"),
-                IOOperationChunk(ERR, "gh")
+        assertThat(chunks).containsExactly(
+            IOOperationChunk(IN, "abcd"),
+            IOOperationChunk(OUT, "ef"),
+            IOOperationChunk(ERR, "gh")
         )
     }
 
     @Test
     fun `recordBytes off len`() = IORecorder().run {
         recordBytes(bytes = "abcd".toByteArray(), operationType = IN, off = 1, len = 2)
-        assertThat(operationChunks).containsExactly(IOOperationChunk(IN, "bc"))
+        assertThat(chunks).containsExactly(IOOperationChunk(IN, "bc"))
     }
 }
 
