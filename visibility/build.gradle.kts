@@ -1,40 +1,49 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 group = "org.gorttar"
 version = "1.0-SNAPSHOT"
 
-val kotlinVersion = "1.3.50"
+val kotlinGroup = "org.jetbrains.kotlin"
+val javaLangVersion = "1.8"
+val kotlinLangVersion = "1.3.72"
 
 plugins {
     java
     id("idea")
+    kotlin("jvm")
 }
-
-apply(plugin = "kotlin")
 
 repositories { mavenCentral() }
 
 dependencies {
     implementation("com.google.code.findbugs:jsr305:1.3.9")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion")
-    testImplementation("org.testng:testng:6.13.1")
+    implementation(group = kotlinGroup, name = "kotlin-stdlib-jdk8", version = kotlinLangVersion)
+    implementation(group = kotlinGroup, name = "kotlin-reflect", version = kotlinLangVersion)
+    implementation(group = kotlinGroup, name = "kotlin-script-runtime", version = kotlinLangVersion)
 }
 
 buildscript {
     repositories { mavenCentral() }
     dependencies {
-        classpath("org.testng:testng:6.13.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
     }
 }
 
 tasks {
-    withType<JavaCompile> {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+    test {
+        useTestNG()
     }
 
-    withType<KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
+    listOf(compileJava, compileTestJava).forEach {
+        it {
+            sourceCompatibility = javaLangVersion
+            targetCompatibility = javaLangVersion
+        }
+    }
+
+    listOf(compileKotlin, compileTestKotlin).forEach {
+        it {
+            kotlinOptions {
+                jvmTarget = javaLangVersion
+            }
+        }
+    }
 }
