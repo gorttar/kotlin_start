@@ -2,25 +2,29 @@ package org.gorttar.data.heterogeneous.list.generators
 
 import org.junit.jupiter.api.Test
 
-private const val testClassName = "DestructuringKtTest"
+private const val testClassName = "LiteralsKtTest"
 
 fun main(): Unit = writeTestSrc(
     testClassName,
     """
-    |import assertk.assertAll
     |import assertk.assertThat
     |import assertk.assertions.isEqualTo
+    |import assertk.assertions.isSameAs
     |import ${Test::class.qualifiedName}
     |
     |class $testClassName {
+    |    @Test
+    |    fun `0 args literal`() = assertThat(
+    |        hListOf()
+    |    ).isSameAs(xs0)
+    |
     |${(minPropName..maxPropName).joinToString("\n\n") { lastPropName ->
         val lastPropNumber = lastPropName.number
         """
         |    @Test
-        |    fun `xs$lastPropNumber destructuring`() = assertAll {
-        |        val (${(minPropName..lastPropName).joinToString { "_$it" }}) = xs$lastPropNumber
-        |${(minPropName..lastPropName).joinToString("\n") { """|        assertThat(_$it).isEqualTo($it)""" }}
-        |    }
+        |    fun `$lastPropNumber  args literal`() = assertThat(
+        |        hListOf(${(minPropName..lastPropName).joinToString()})
+        |    ).isEqualTo(xs$lastPropNumber)
         """.trimMargin()
     }}
     |}

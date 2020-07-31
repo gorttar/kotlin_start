@@ -9,7 +9,7 @@ fun main(): Unit = writeTestSrc(
     """
     |import ${BigDecimal::class.qualifiedName}
     |import ${BigInteger::class.qualifiedName}
-    |    
+    |
     |internal const val ${propNames.next()} = ${propValues.next()}.toByte()
     |internal const val ${propNames.next()} = ${propValues.next()}.toShort()
     |internal const val ${propNames.next()} = ${propValues.next()}.toLong()
@@ -39,7 +39,7 @@ fun main(): Unit = writeTestSrc(
         ).mapNotNull(KClass<*>::simpleName).map(it)
     }.take(maxPropNumber).chunked(9) { "    ${it.joinToString()}" }.joinToString(",\n")}
     |    > = $minPropName.`+`(${minPropName + 1}) + ${(minPropName + 2..maxPropName).joinToString(" + ")}
-    |${(maxPropNumber - 1 downTo 1).joinToString("\n") { "internal val xs$it = xs${it + 1}.head" }}
+    |${(maxPropNumber - 1 downTo 0).joinToString("\n") { "internal val xs$it = xs${it + 1}.head" }}
     """.trimMargin()
 )
 
