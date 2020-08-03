@@ -47,7 +47,10 @@ buildscript {
 }
 
 tasks {
-    test { useJUnitPlatform() }
+    test {
+        useJUnitPlatform()
+        filter { excludeTestsMatching("course.*") }
+    }
 
     listOf(compileJava, compileTestJava).forEach {
         it {
