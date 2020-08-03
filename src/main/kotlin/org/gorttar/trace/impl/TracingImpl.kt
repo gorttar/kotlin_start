@@ -1,6 +1,9 @@
 package org.gorttar.trace.impl
 
-import org.gorttar.output.*
+import org.gorttar.output.boldBlue
+import org.gorttar.output.boldGreen
+import org.gorttar.output.magenta
+import org.gorttar.output.withIndent
 import org.gorttar.repr.IdEqKey
 import org.gorttar.repr.repr
 import org.mockito.Mockito.mock
@@ -50,11 +53,10 @@ private fun <R> Function<R>.traceResult(hofName: String, traceResult: Boolean, v
         else { _ -> "" }
 
 private fun <T> trace(beforeMessage: () -> Any?, invocation: () -> T, afterMessage: (T) -> Any?): T =
-        tracePrintln(beforeMessage())
-                .also { traceIndent++ }
-                .let { invocation() }
-                .also { traceIndent-- }
-                .also { tracePrintln(afterMessage(it)) }
+    withIndent {
+        println(beforeMessage())
+        withIndent(block = invocation)
+    }.also { withIndent { println(afterMessage(it)) } }
 
 private fun traceInvocation(o: Any?, method: Method, toString: String, args: Array<Any?>?): Any? = trace(
         { "-> ${method.traceName(toString, args)}" },
@@ -71,6 +73,3 @@ private fun Method.traceName(toString: String, args: Array<Any?>? = null) =
 
 private fun <R> Function<R>.traceName(hofName: String, vararg args: Any?) =
         "$hofName ${"$this(${args.joinToString { arg -> arg.repr }})".boldBlue}"
-
-var traceIndent: Indent = indent(1)
-private fun tracePrintln(message: Any?) = traceIndent.println(message)

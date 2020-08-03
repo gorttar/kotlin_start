@@ -35,15 +35,20 @@ fun main() {
             for (x in l) {
                 sumSquares += x * x
             }
-            println("Сумма квадратов, вычисленная с помощью цикла for: ${"sumSquares".magenta} = ${
-            sumSquares.repr.boldGreen
-            }")
-            println("Произведение кубов через map reduce:            ${"cubesProduct".magenta} = ${
-            l.asSequence().trace("Seq${l.unTraced}")
+            println(
+                "Сумма квадратов, вычисленная с помощью цикла for: ${"sumSquares".magenta} = ${
+                sumSquares.repr.boldGreen
+                }"
+            )
+            println(
+                "Произведение кубов через map reduce:            ${"cubesProduct".magenta} = ${
+                l.asSequence().trace("Seq${l.unTraced}")
                     .map(trace("{ x -> x * x * x }") { x: Int -> x * x * x })
-                    .reduce(trace("{ cubeProduct, x -> cubeProduct * x }")
-                    { cubeProduct: Int, x: Int -> cubeProduct * x }).repr.boldGreen
-            }")
+                    .reduce(
+                        trace("{ cubeProduct, x -> cubeProduct * x }") { cubeProduct: Int, x: Int -> cubeProduct * x }
+                    ).repr.boldGreen
+                }"
+            )
         }
     }
 }

@@ -26,7 +26,7 @@ dependencies {
     implementation(group = "com.nhaarman", name = "mockito-kotlin", version = "1.6.0")
     implementation(group = "com.opencsv", name = "opencsv", version = "5.0")
     implementation(group = "com.willowtreeapps.assertk", name = "assertk-jvm", version = "0.20")
-    implementation(group = "com.github.gorttar", name = "handy-libs", version = "1.0.0")
+    implementation(group = "com.github.gorttar", name = "handy-libs", version = "2.0.0")
 
     implementation(project(":visibility"))
 
