@@ -1,9 +1,8 @@
-group = "org.gorttar"
-version = "1.0-SNAPSHOT"
+val javaLangVersion = "${JavaVersion.VERSION_1_8}"
+val isRelease = false
 
-val kotlinGroup = "org.jetbrains.kotlin"
-val javaLangVersion = "1.8"
-val kotlinLangVersion = "1.3.72"
+group = "com.github.gorttar"
+version = "1.0.0${"".takeIf { isRelease } ?: "-SNAPSHOT"}"
 
 plugins {
     java
@@ -11,19 +10,23 @@ plugins {
     kotlin("jvm") version "1.3.72"
 }
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    jcenter()
+}
 
 dependencies {
     implementation(group = "com.google.code.findbugs", name = "jsr305", version = "1.3.9")
-    implementation(group = kotlinGroup, name = "kotlin-stdlib-jdk8", version = kotlinLangVersion)
-    implementation(group = kotlinGroup, name = "kotlin-reflect", version = kotlinLangVersion)
-    implementation(group = kotlinGroup, name = "kotlin-script-runtime", version = kotlinLangVersion)
-    implementation(group = kotlinGroup, name = "kotlin-test", version = kotlinLangVersion)
+    implementation(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
+    implementation(kotlin("test"))
+    implementation(kotlin("script-runtime"))
     implementation(group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version = "1.3.5")
     implementation(group = "com.github.ajalt", name = "mordant", version = "1.2.1")
     implementation(group = "com.nhaarman", name = "mockito-kotlin", version = "1.6.0")
     implementation(group = "com.opencsv", name = "opencsv", version = "5.0")
     implementation(group = "com.willowtreeapps.assertk", name = "assertk-jvm", version = "0.20")
+    implementation(group = "com.github.gorttar", name = "handy-libs", version = "1.0.0")
 
     implementation(project(":visibility"))
 
@@ -33,7 +36,10 @@ dependencies {
 }
 
 buildscript {
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
     dependencies {
         classpath(group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.6.2")
         classpath(group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "1.3.72")

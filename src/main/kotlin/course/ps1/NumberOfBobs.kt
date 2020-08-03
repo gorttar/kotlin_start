@@ -11,9 +11,10 @@ import org.gorttar.test.FAIL
  * Нужно написать функцию [numberOfBobs] которая считает, сколько раз строка "bob" встречается в [s].
  * Пример: если [s] = 'azcbobobegghakl', функция [numberOfBobs] должна вернуть 2
  *
- * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps1/Problem2Test.kt и смотришь вывод.
+ * Для проверки задания запускаешь тест из файла src/test/kotlin/course/ps1/Problem2Test.kt и смотришь вывод.
  * Он должен быть зелёным, если всё верно
  */
+@Suppress("SpellCheckingInspection")
 fun numberOfBobs(s: String): Int {
     FAIL
 }

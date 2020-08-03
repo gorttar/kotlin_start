@@ -1,19 +1,23 @@
 package course.ps3
 
-import org.gorttar.test.NamedCase.Companion.namedAs
-import org.gorttar.test.NamedCaseWithBody.Companion.passTo
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.gorttar.test.dynamicTests
 import org.gorttar.test.randomAlphabetPartition
-import org.gorttar.test.shouldBeEqualTo
+import org.junit.jupiter.api.TestFactory
 
-/**
- * Третьей напишите функцию [getAvailableLetters]. Требования к функции описаны в её документации.
- *
- * запусти, чтобы протестировать функцию [getAvailableLetters]
- */
-fun main() = (sequenceOf(
-        setOf('e', 'i', 'k', 'p', 'r', 's') to "abcdfghjlmnoqtuvwxyz"
-) + (1..10).asSequence().map {
-    randomAlphabetPartition().let { (xs, ys) -> ys.toSet() to xs }
-}).forEach { (arg, expected) ->
-    arg namedAs "Test for $arg" passTo { getAvailableLetters(arg) } shouldBeEqualTo expected
+class Problem3Test {
+    /**
+     * Третьей напишите функцию [getAvailableLetters]. Требования к функции описаны в её документации.
+     *
+     * запусти, чтобы протестировать функцию [getAvailableLetters]
+     */
+    @TestFactory
+    fun getAvailableLettersTest() = (sequenceOf(
+        Case(setOf('e', 'i', 'k', 'p', 'r', 's'), "abcdfghjlmnoqtuvwxyz")
+    ) + (1..10).asSequence().map {
+        randomAlphabetPartition().let { (xs, ys) -> Case(ys.toSet(), xs) }
+    }).dynamicTests { assertThat(getAvailableLetters(lettersGuessed)).isEqualTo(expected) }
+
+    private data class Case(val lettersGuessed: Set<Char>, val expected: String)
 }

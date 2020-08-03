@@ -31,9 +31,10 @@ import org.gorttar.test.FAIL
  * переключись на что-нибудь другое.
  * Когда отдохнёшь и снова появятся идеи, вернись к ней и попробуй решить ещё раз.
  *
- * Для проверки задания запускаешь main из файла src/test/kotlin/course/ps1/Problem3Test.kt и смотришь вывод.
+ * Для проверки задания запускаешь тест из файла src/test/kotlin/course/ps1/Problem3Test.kt и смотришь вывод.
  * Он должен быть зелёным, если всё верно
  */
+@Suppress("SpellCheckingInspection")
 fun longestAlphabetic(s: String): String {
     FAIL
 }
