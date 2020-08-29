@@ -7,7 +7,7 @@ version = "1.0.0${"".takeIf { isRelease } ?: "-SNAPSHOT"}"
 plugins {
     java
     id("idea")
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.0"
 }
 
 repositories {
@@ -42,7 +42,7 @@ buildscript {
     }
     dependencies {
         classpath(group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.6.2")
-        classpath(group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "1.3.72")
+        classpath(group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "1.4.0")
     }
 }
 
