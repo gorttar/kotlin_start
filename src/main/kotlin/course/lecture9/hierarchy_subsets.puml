@@ -1,0 +1,29 @@
+@startdot
+graph G {
+    subgraph cluster_1 {
+        graph [bgcolor="#B7B7B7"]
+        node [style="invisible"]
+        label=Animal
+        subgraph cluster_2 {
+            graph [bgcolor="#EFEFB7"]
+            label=Cat
+            C
+        }
+        subgraph cluster_3 {
+            graph [bgcolor="#B7DEEC"]
+            label=Rabbit
+            R
+        }
+        subgraph cluster_4 {
+            graph [bgcolor="#B7DEC9"]
+            label=Person
+            P
+            subgraph cluster_5 {
+                graph [bgcolor="#EFB7B7"]
+                label=Student
+                S
+            }
+        }
+    }
+}
+@enddot

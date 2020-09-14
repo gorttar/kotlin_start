@@ -29,7 +29,7 @@ class Animal(object):
 
 class Cat(Animal):
     def speak(self):
-        print("meow")
+        print("мяу")
 
     def __str__(self):
         return "cat:" + str(self.name) + ":" + str(self.age)

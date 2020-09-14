@@ -1,0 +1,16 @@
+@startuml
+hide empty members
+skinparam class {
+    ArrowColor Black
+    BorderColor Black
+}
+class Animal<<(A,#B7B7B7)>> #B7B7B7
+class Person<<(P,#B7DEC9)>> #B7DEC9
+class Cat<<(C,#EFEFB7)>> #EFEFB7
+class Rabbit<<(R,#B7DEEC)>> #B7DEEC
+class Student<<(S,#EFB7B7)>> #EFB7B7
+Animal <|-- Person
+Animal <|-- Cat
+Animal <|-- Rabbit
+Person <|-- Student
+@enduml

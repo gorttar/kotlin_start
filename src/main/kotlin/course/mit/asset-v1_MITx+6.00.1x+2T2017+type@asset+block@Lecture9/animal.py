@@ -29,7 +29,7 @@ class Animal(object):
 
 class Cat(Animal):
     def speak(self):
-        print("meow")
+        print("мяу")
 
     def __str__(self):
         return "cat:" + str(self.name) + ":" + str(self.age)
@@ -57,7 +57,7 @@ class Person(Animal):
             self.friends.append(fname)
 
     def speak(self):
-        print("hello")
+        print("привет")
 
     def age_diff(self, other):
         # alternate way: diff = self.age - other.age
