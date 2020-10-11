@@ -554,3 +554,201 @@ fun main() {
 * использует абстракцию, чтобы разделить реализацию класса и его использование
 * строит слои абстракции за счёт наследования поведения от родительских классов
 * позволяет создавать свои типы на основе уже существующих
+## [Интерфейсы](https://kotlinlang.ru/docs/reference/interfaces.html)
+* абсолютно абстрактные классы
+* могут содержать
+  * абстрактные методы (не требует ключевого слова `abstract`, достаточно не определять тело метода)
+  * открытые (`open`) методы с определённым телом (не требует ключевого слова `open`, достаточно определить тело метода)
+  * абстрактные свойства (не требует ключевого слова `abstract`, достаточно не определять геттер/сеттер)
+  * открытые делегированные свойства (не требует ключевого слова `open`, достаточно определить геттер/сеттер)
+* не могут содержать
+  * закрытые (`final`) методы и свойства
+  * инициализированные свойства
+* класс может наследовать (реализовывать) несколько интерфейсов, но только один класс
+  * за счёт этого объект одного и того же класса может быть использован в разных библиотеках
+### [Пример](InterfacesSample.kt)
+```kotlin
+/** библиотека "Докладчик"*/
+/** библиотека "Докладчик"*/
+interface Speaker {
+    fun say() // абстрактный метод в интерфейсе не требует ключевого слова abstract
+    fun speak(): Unit = println(speech) // открытый метод может быть определён в интерфейсе
+    val speech: String // абстрактное свойство в интерфейсе не требует ключевого слова abstract
+//    val story = "story" // а вот инициализированное свойство - уже нет
+}
+
+fun performSpeech(speaker: Speaker) {
+    println("А сейчас выступит $speaker с речью ${speaker.speech}")
+    speaker.say()
+    speaker.speak()
+}
+/** конец библиотеки "Докладчик"*/
+
+/** библиотека "Охотник"*/
+interface Hunter {
+    val name: String // абстрактное свойство в интерфейсе не требует ключевого слова abstract
+    fun hunt() = println("$name охотится") // открытый метод может быть определён в интерфейсе
+    fun speak(): Unit = println(name) // открытый метод может быть определён в интерфейсе
+}
+
+fun forestHunt(hunter: Hunter) {
+    println("В лесу охотится $hunter по имени ${hunter.name}")
+    hunter.hunt()
+}
+/** конец библиотеки "Охотник"*/
+
+abstract class Animal(val age: Int, val name: String) {
+    abstract fun speak()
+    override fun toString(): String = "Animal(age=$age, name=$name)"
+}
+
+/** класс [Dog] является [Animal], а так же [Speaker] и [Hunter]*/
+class Dog(age: Int, name: String) : Animal(age, name), Speaker, Hunter {
+    /** определяем абстрактный метод из интерфейса [Speaker] */
+    override fun say(): Unit = speak()
+
+    /** определяем абстрактное свойство из интерфейса [Speaker] */
+    override val speech: String = "гав"
+
+    /** определяем абстрактный метод из класса [Animal]
+     * после super в <> явно указываем, из какого родителя вызывать реализацию,
+     * так как он реализован и в [Speaker.speak], и в [Hunter.speak]
+     */
+    override fun speak() {
+        super<Speaker>.speak()
+        super<Hunter>.speak()
+    }
+    /** поле [Hunter.name] определять не нужно, так как мы унаследовали его от [Animal]
+     * к тому же его нельзя переопределить, так как оно не open в [Animal]
+     */
+}
+
+fun main(): Unit = Dog(2, "Шарик").let {
+    performSpeech(it)
+    forestHunt(it)
+}
+```
+выведет
+```text
+А сейчас выступит Animal(age=2, name=Шарик) с речью гав
+гав
+Шарик
+гав
+Шарик
+В лесу охотится Animal(age=2, name=Шарик) по имени Шарик
+Шарик охотится
+```
+## [Расширения (extensions)](https://kotlinlang.ru/docs/reference/extensions.html)
+* не дают новых возможностей по отношению к обычным функциям (синтаксический сахар), но позволяют записывать выражения, используя более плавный синтаксис
+* бывают функции-расширения и свойства-расширения
+### [Пример](ExtensionsSample.kt)
+```kotlin
+/** преобразование элементов [xs] из [Int] в [Double] */
+fun toDoubles(xs: Iterable<Int>): Iterable<Double> = xs.map(Int::toDouble)
+
+/** произведение элементов перечислимого [xs] */
+fun product(xs: Iterable<Double>): Double = xs.fold(1.0, Double::times)
+
+/** преобразование элементов [this] из [Int] в [Double], объявленное как функция-расширение */
+fun Iterable<Int>.toDoublesExt(): Iterable<Double> = this.map(Int::toDouble)
+
+/** произведение элементов перечислимого [this], объявленное как функция-расширение */
+fun Iterable<Double>.productExt(): Double = this.fold(1.0, Double::times)
+
+/** преобразование элементов [this] из [Int] в [Double], объявленное как свойство-расширение */
+val Iterable<Int>.toDoublesExt: Iterable<Double> get() = this.map(Int::toDouble)
+
+/** произведение элементов перечислимого [this], объявленное как свойство-расширение */
+val Iterable<Double>.productExt: Double get() = this.fold(1.0, Double::times)
+
+fun main() {
+    val xs = (1..5)
+
+    /** без расширений у нас получается плохо читаемая конструкция со вложенными скобками и обратным порядком функций,
+    * если читать слева направо:
+    * читаем product, toDoubles, при этом сначала выполняется toDoubles, а затем product
+    */
+    val product = product(toDoubles(xs))
+    println(product)
+
+    /** с функциями-расширениями из выражения исчезли вложенные скобки и порядок вызовов совпадает с порядком
+     * чтения слева направо
+     */
+    val productExtFun = xs.toDoublesExt().productExt()
+    println(productExtFun)
+
+    /** со свойствами-расширениями из выражения исчезли вложенные скобки и порядок вызовов совпадает с порядком
+     * чтения слева направо
+     */
+    val productExtVal = xs.toDoublesExt.productExt
+    println(productExtVal)
+}
+```
+## Объявление расширений в качестве членов класса (контекстно-зависимые операции)
+* позволяют определить операции над объектами, доступные только в контексте некоторого другого объекта
+### [Пример - контекст обменника валют](MemberExtensionSample.kt)
+* пусть у нас есть объекты следующих классов:
+  * `Currency` - валюта
+  * `Asset` - актив в валюте
+  * `CurrencyConverter` - обменник валют, отвечает за хранение курсов валют и операции с ними
+* мы хотим, чтобы у нас были следующие операции:
+  * `/` определённая для двух валют, результат - курс одной валюты к другой
+  * `*` определённая для числа и валюты, результат - актив в валюте, равный числу
+  * `convertTo` определённая для актива и валюты, результат - актив, сконвертированный в валюту по курсу
+* эти операции должны быть доступны только в контексте обменника валют, так как вне этого контекста неизвестны курсы валют
+```kotlin
+class Asset(val currency: Currency, val whole: Int, val cents: Int = 0) {
+    init {
+        require(whole * cents >= 0) { "Целая($whole) и дробная($cents) части валюты имеют разные знаки" }
+        require(cents in -99..99) { "Дробная($cents) часть валюты за пределами интервала -99..99" }
+    }
+
+    override fun toString(): String = "${
+        "-".takeIf { min(whole.sign, cents.sign) < 0 } ?: ""
+    }${abs(whole)}.${abs(cents) / 10}${abs(cents) % 10} $currency"
+}
+
+val USD: Currency = Currency.getInstance("USD")
+val RUB: Currency = Currency.getInstance("RUB")
+val EUR: Currency = Currency.getInstance("EUR")
+
+class CurrencyConverter {
+    private val rates = mutableMapOf<Currency, Double>().also {
+        it[USD] = 1.0
+    }
+
+    operator fun set(dividend: Currency, divisor: Currency, rate: Double) {
+        check(rate > 0) { "Попытка присвоить курсу $dividend/$divisor не положительное значение $rate" }
+        check(dividend != divisor) { "Попытка задать курс валюты $dividend по отношению к себе" }
+        val divisorRate = rates[divisor]
+        val dividendRate = rates[dividend]
+        when {
+            dividend == USD -> rates[divisor] = 1 / rate
+            divisor == USD -> rates[dividend] = rate
+            divisorRate != null -> rates[dividend] = rate * divisorRate
+            dividendRate != null -> rates[divisor] = dividendRate / rate
+            else -> error("Попытка присвоить значение курсу $dividend/$divisor при неизвестных курсах $dividend и $divisor")
+        }
+    }
+
+    operator fun Currency.div(divisor: Currency): Double = rates[this]!! / rates[divisor]!!
+
+    operator fun Double.times(currency: Currency): Asset =
+        Asset(currency.also { rates[it]!! }, toInt(), (this * 100).toInt() % 100)
+
+    operator fun Int.times(currency: Currency): Asset = toDouble() * currency
+
+    infix fun Asset.convertTo(toCurrency: Currency): Asset =
+        ((whole * 100 + cents) * (currency / toCurrency) / 100).times(toCurrency)
+}
+
+fun main(): Unit = CurrencyConverter().run {
+    this[USD, RUB] = 77.03
+    this[EUR, RUB] = 90.72
+    println("Курс доллара к рублю: ${USD / RUB}")
+    println("Курс евро к рублю: ${EUR / RUB}")
+    println("Курс евро к доллару: ${EUR / USD}")
+    val oneEUR = 1 * EUR
+    println("$oneEUR = ${oneEUR convertTo RUB} = ${oneEUR convertTo USD}")
+}
+```
