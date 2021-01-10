@@ -752,3 +752,58 @@ fun main(): Unit = CurrencyConverter().run {
     println("$oneEUR = ${oneEUR convertTo RUB} = ${oneEUR convertTo USD}")
 }
 ```
+
+## [Классы данных](https://kotlinlang.ru/docs/reference/data-classes.html) / [Data Classes](https://kotlinlang.org/docs/reference/data-classes.html)
+
+* основное назначение — хранение данных
+* пример: `data class User(val name: String, val age: Int)`
+* генерируемые методы:
+    * `equals()`/`hashCode()`, определяющие равенство двух объектов класса на основании равенства его свойств
+    * функция `toString()` в форме `"User(name=John, age=42)"`
+    * компонентные функции [`componentN()`](https://kotlinlang.ru/docs/reference/multi-declarations.html), которые
+      соответствуют свойствам, в соответствии с порядком их объявления
+    * функция копирования `copy()` (см. ниже)
+* требования к классам данных:
+    * основной конструктор должен иметь минимум один параметр
+    * все параметры основного конструктора должны быть свойствами (`val` или `var`)
+    * не может быть `abstract`, `open`, `sealed`, `enum` или `inner`
+* дополнительные правила для генерации методов, связанные с наследованием:
+    * если `equals()`, `hashCode()`, `toString()` явно объявлены в теле класса или помечены как `final` в родительском
+      классе, то они не генерируются
+    * если в родительском классе объявлены `componentN()` с модификатором `open`, и возвращающие совместимые типы, то
+      они переопределяются сгенерированными. Иначе ошибка компиляции.
+    * наследование от типа, в котором объявлена функция `copy()`, с совпадающей сигнатурой, запрещено
+    * явное объявление `componentN()` и `copy()` в теле класса запрещено
+    * свойства, объявленные в теле класса, не используются при генерации методов
+  ```kotlin
+    val human1 = Human("Андрей")
+    val human2 = Human("Андрей")
+    human1.age = 10
+    human2.age = 20
+    println(human1)                     // выведет "Human(name=Андрей)"
+    println(human1 == human2)           // выведет "true"
+  ```
+
+### Функция копирования `copy()`
+
+Используется, когда надо скопировать объект с изменением только некоторых свойств:
+
+```kotlin
+    val andrey = User(name = "Андрей", age = 1)
+val olderAndrey = andrey.copy(age = 2)
+println(andrey)                     // выведет "User(name=Андрей, age=1)"
+println(olderAndrey)                // выведет "User(name=Андрей, age=2)"
+```
+
+### Классы данных и [мульти-декларации](https://kotlinlang.ru/docs/reference/data-classes.html)
+
+Сгенерированные компонентные функции [`componentN()`](https://kotlinlang.ru/docs/reference/multi-declarations.html)
+позволяют деструктуризировать классы данных в мульти-декларациях:
+
+```kotlin
+    val ivan = User("Иван", 30)
+val (name, age) = ivan              // мульти-декларация
+println("$name, возраст $age лет")  // выведет "Иван, возраст 30 лет"
+```
+
+### [Примеры](DataClassesSample.kt)
