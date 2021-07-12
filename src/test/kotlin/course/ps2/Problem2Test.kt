@@ -2,12 +2,17 @@ package course.ps2
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import course.currentSolutionLanguage
+import course.languageDependent
 import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 
+private val solution = languageDependent(::payInAYearExhaustive, PayInAYearExhaustive::payInAYearExhaustive)
+
 class Problem2Test {
     /**
-     * запусти, чтобы протестировать функцию [payInAYearExhaustive]
+     * запусти, чтобы протестировать функцию [payInAYearExhaustive] или [PayInAYearExhaustive.payInAYearExhaustive]
+     * в зависимости от языка, присвоенного константе [currentSolutionLanguage]
      */
     @TestFactory
     fun payInAYearExhaustiveTest() = (sequenceOf(
@@ -15,7 +20,7 @@ class Problem2Test {
         Case(3926.0, 0.2, "Lowest Payment: 360"),
         Case(4773.0, 0.2, "Lowest Payment: 440")
     ) + exhaustiveCases.shuffled().asSequence().take(10)).dynamicTests {
-        assertThat(payInAYearExhaustive(balance, annualInterestRate)).isEqualTo(expected)
+        assertThat(solution(balance, annualInterestRate)).isEqualTo(expected)
     }
 }
 

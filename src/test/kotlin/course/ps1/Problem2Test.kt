@@ -2,17 +2,13 @@ package course.ps1
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import course.SolutionsLanguage.JAVA
-import course.SolutionsLanguage.KOTLIN
 import course.currentSolutionLanguage
+import course.languageDependent
 import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 import kotlin.random.Random
 
-private val solution = when (currentSolutionLanguage) {
-    KOTLIN -> ::numberOfBobs
-    JAVA -> NumberOfBobs::numberOfBobs
-}
+private val solution = languageDependent(::numberOfBobs, NumberOfBobs::numberOfBobs)
 
 class Problem2Test {
     /**

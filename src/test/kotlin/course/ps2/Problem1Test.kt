@@ -2,19 +2,24 @@ package course.ps2
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import course.currentSolutionLanguage
+import course.languageDependent
 import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 
+private val solution = languageDependent(::payMinimalAYear, PayMinimalAYear::payMinimalAYear)
+
 class Problem1Test {
     /**
-     * запусти, чтобы протестировать функцию [payMinimalAYear]
+     * запусти, чтобы протестировать функцию [payMinimalAYear] или [PayMinimalAYear.payMinimalAYear]
+     * в зависимости от языка, присвоенного константе [currentSolutionLanguage]
      */
     @TestFactory
     fun payMinimalAYearTest() = (sequenceOf(
         Case(42.0, 0.2, 0.04, "Remaining balance: 31.38"),
         Case(484.0, 0.2, 0.04, "Remaining balance: 361.61")
     ) + payMinimalCases.shuffled().asSequence().take(10)).dynamicTests {
-        assertThat(payMinimalAYear(balance, annualInterestRate, monthlyPaymentRate)).isEqualTo(expected)
+        assertThat(solution(balance, annualInterestRate, monthlyPaymentRate)).isEqualTo(expected)
     }
 
 
