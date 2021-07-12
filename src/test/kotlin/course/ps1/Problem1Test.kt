@@ -2,13 +2,22 @@ package course.ps1
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import course.SolutionsLanguage.JAVA
+import course.SolutionsLanguage.KOTLIN
+import course.currentSolutionLanguage
 import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 import kotlin.random.Random
 
+private val solution = when (currentSolutionLanguage) {
+    KOTLIN -> ::numberOfVowels
+    JAVA -> NumberOfVowels::numberOfVowels
+}
+
 class Problem1Test {
     /**
-     * запусти, чтобы протестировать функцию [numberOfVowels]
+     * запусти, чтобы протестировать функцию [numberOfVowels] или [NumberOfVowels.numberOfVowels]
+     * в зависимости от языка, присвоенного константе [currentSolutionLanguage]
      */
     @Suppress("SpellCheckingInspection")
     @TestFactory
@@ -25,7 +34,7 @@ class Problem1Test {
                 .shuffled().joinToString(""),
             it
         )
-    }).dynamicTests { assertThat(numberOfVowels(s)).isEqualTo(expected) }
+    }).dynamicTests { assertThat(solution(s)).isEqualTo(expected) }
 
 }
 

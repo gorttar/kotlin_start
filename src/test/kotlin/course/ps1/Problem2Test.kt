@@ -2,13 +2,22 @@ package course.ps1
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import course.SolutionsLanguage.JAVA
+import course.SolutionsLanguage.KOTLIN
+import course.currentSolutionLanguage
 import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 import kotlin.random.Random
 
+private val solution = when (currentSolutionLanguage) {
+    KOTLIN -> ::numberOfBobs
+    JAVA -> NumberOfBobs::numberOfBobs
+}
+
 class Problem2Test {
     /**
-     * запусти, чтобы протестировать функцию [numberOfBobs]
+     * запусти, чтобы протестировать функцию [numberOfBobs] или [NumberOfBobs.numberOfBobs]
+     * в зависимости от языка, присвоенного константе [currentSolutionLanguage]
      */
     @Suppress("SpellCheckingInspection")
     @TestFactory
@@ -27,7 +36,7 @@ class Problem2Test {
                 .joinToString(""),
             bobsWithAmount.map { (_, x) -> x }.sum()
         )
-    }).dynamicTests { assertThat(numberOfBobs(s)).isEqualTo(expected) }
+    }).dynamicTests { assertThat(solution(s)).isEqualTo(expected) }
 }
 
 private val Int.bobs: String get() = "b${"ob".repeat(this)}"
