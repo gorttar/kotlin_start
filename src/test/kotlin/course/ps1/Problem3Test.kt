@@ -22,7 +22,8 @@ class Problem3Test {
         (sequenceOf(
             Case("", ""),
             Case("azcbobobegghakl", "beggh"),
-            Case("abcbcd", "abc")
+            Case("abcbcd", "abc"),
+            Case("abcbcde", "bcde")
         ) + (1..10).map {
             (1..Random.nextInt(2, 10)).map {
                 (sequenceOf('a', 'z') + (1..Random.nextInt(9)).map { letters.random() }).sorted().joinToString("")
