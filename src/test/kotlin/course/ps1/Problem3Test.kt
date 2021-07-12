@@ -21,6 +21,7 @@ class Problem3Test {
     ) { longestAlphabetic ->
         (sequenceOf(
             Case("", ""),
+            Case("a", "a"),
             Case("azcbobobegghakl", "beggh"),
             Case("abcbcd", "abc"),
             Case("abcbcde", "bcde")
