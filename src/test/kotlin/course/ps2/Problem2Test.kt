@@ -7,20 +7,23 @@ import course.languageDependent
 import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 
-private val solution = languageDependent(::payInAYearExhaustive, PayInAYearExhaustive::payInAYearExhaustive)
-
 class Problem2Test {
     /**
      * запусти, чтобы протестировать функцию [payInAYearExhaustive] или [PayInAYearExhaustive.payInAYearExhaustive]
      * в зависимости от языка, присвоенного константе [currentSolutionLanguage]
      */
     @TestFactory
-    fun payInAYearExhaustiveTest() = (sequenceOf(
-        Case(3329.0, 0.2, "Lowest Payment: 310"),
-        Case(3926.0, 0.2, "Lowest Payment: 360"),
-        Case(4773.0, 0.2, "Lowest Payment: 440")
-    ) + exhaustiveCases.shuffled().asSequence().take(10)).dynamicTests {
-        assertThat(solution(balance, annualInterestRate)).isEqualTo(expected)
+    fun payInAYearExhaustiveTest() = languageDependent(
+        ::payInAYearExhaustive,
+        PayInAYearExhaustive::payInAYearExhaustive
+    ) { payInAYearExhaustive ->
+        (sequenceOf(
+            Case(3329.0, 0.2, "Lowest Payment: 310"),
+            Case(3926.0, 0.2, "Lowest Payment: 360"),
+            Case(4773.0, 0.2, "Lowest Payment: 440")
+        ) + exhaustiveCases.shuffled().asSequence().take(10)).dynamicTests {
+            assertThat(payInAYearExhaustive(balance, annualInterestRate)).isEqualTo(expected)
+        }
     }
 }
 

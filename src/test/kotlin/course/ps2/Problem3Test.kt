@@ -10,22 +10,25 @@ import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.assertTimeoutPreemptively
 import java.time.Duration.ofSeconds
 
-private val solution = languageDependent(::payInAYearBisection, PayInAYearBisection::payInAYearBisection)
-
 class Problem3Test {
     /**
      * запусти, чтобы протестировать функцию [payInAYearBisection] или [PayInAYearBisection.payInAYearBisection]
      * в зависимости от языка, присвоенного константе [currentSolutionLanguage]
      */
     @TestFactory
-    fun payInAYearBisectionTest() = (sequenceOf(
-        Case(320000.0, 0.2, "Lowest Payment: 29157.1"),
-        Case(999999.0, 0.18, "Lowest Payment: 90325.03")
-    ) + bisectionCases.shuffled().asSequence().take(10)).dynamicTests {
-        assertTimeoutPreemptively(ofSeconds(1)) {
-            assertThat(solution(balance, annualInterestRate)).given { actual ->
-                assertThat((actual.replace("^.*\\.".toRegex(), "").length)).isLessThan(2)
-                assertThat(actual.payment()).isBetween(expected.payment() - 0.02, expected.payment() + 0.02)
+    fun payInAYearBisectionTest() = languageDependent(
+        ::payInAYearBisection,
+        PayInAYearBisection::payInAYearBisection
+    ) { payInAYearBisection ->
+        (sequenceOf(
+            Case(320000.0, 0.2, "Lowest Payment: 29157.1"),
+            Case(999999.0, 0.18, "Lowest Payment: 90325.03")
+        ) + bisectionCases.shuffled().asSequence().take(10)).dynamicTests {
+            assertTimeoutPreemptively(ofSeconds(1)) {
+                assertThat(payInAYearBisection(balance, annualInterestRate)).given { actual ->
+                    assertThat((actual.replace("^.*\\.".toRegex(), "").length)).isLessThan(2)
+                    assertThat(actual.payment()).isBetween(expected.payment() - 0.02, expected.payment() + 0.02)
+                }
             }
         }
     }

@@ -8,8 +8,6 @@ import org.gorttar.test.dynamicTests
 import org.junit.jupiter.api.TestFactory
 import kotlin.random.Random
 
-private val solution = languageDependent(::numberOfVowels, NumberOfVowels::numberOfVowels)
-
 class Problem1Test {
     /**
      * запусти, чтобы протестировать функцию [numberOfVowels] или [NumberOfVowels.numberOfVowels]
@@ -17,20 +15,25 @@ class Problem1Test {
      */
     @Suppress("SpellCheckingInspection")
     @TestFactory
-    fun numberOfVowelsTest() = (sequenceOf(
-        Case("azcbobobegghakl", 5),
-        Case("abba", 2),
-        Case("foo", 2),
-        Case("kotlin", 2),
-        Case("padavan", 3),
-        Case("", 0)
-    ) + (1..10).asSequence().map { Random.nextInt(10) }.map {
-        Case(
-            ((1..it).map { vowels.random() } + (1..Random.nextInt(10)).map { consonants.random() })
-                .shuffled().joinToString(""),
-            it
-        )
-    }).dynamicTests { assertThat(solution(s)).isEqualTo(expected) }
+    fun numberOfVowelsTest() = languageDependent(
+        ::numberOfVowels,
+        NumberOfVowels::numberOfVowels
+    ) { numberOfVowels ->
+        (sequenceOf(
+            Case("azcbobobegghakl", 5),
+            Case("abba", 2),
+            Case("foo", 2),
+            Case("kotlin", 2),
+            Case("padavan", 3),
+            Case("", 0)
+        ) + (1..10).asSequence().map { Random.nextInt(10) }.map {
+            Case(
+                ((1..it).map { vowels.random() } + (1..Random.nextInt(10)).map { consonants.random() })
+                    .shuffled().joinToString(""),
+                it
+            )
+        }).dynamicTests { assertThat(numberOfVowels(s)).isEqualTo(expected) }
+    }
 
 }
 

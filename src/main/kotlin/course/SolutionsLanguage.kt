@@ -9,7 +9,9 @@ enum class SolutionsLanguage {
 
 val currentSolutionLanguage: SolutionsLanguage = JAVA
 
-fun <T : Function<*>> languageDependent(kotlinCase: T, javaCase: T): T = when (currentSolutionLanguage) {
-    KOTLIN -> kotlinCase
-    JAVA -> javaCase
-}
+inline fun <T : Function<*>, R> languageDependent(kotlin: T, java: T, block: (T) -> R): R = block(
+    when (currentSolutionLanguage) {
+        KOTLIN -> kotlin
+        JAVA -> java
+    }
+)
