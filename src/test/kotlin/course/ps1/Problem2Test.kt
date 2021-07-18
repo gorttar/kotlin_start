@@ -27,12 +27,12 @@ class Problem2Test {
             Case("", 0)
         ) + (1..10).asSequence().map { (1..Random.nextInt(5)).asSequence() }.map {
             it.map { Random.nextInt(1, 5) }.map { numberOfBobs -> numberOfBobs.bobs to numberOfBobs }
-        }.map { bobsWithAmount ->
+        }.map { it.toList() }.map { bobsWithAmount ->
             Case(
-                (bobsWithAmount.map { (s) -> s } + (1..Random.nextInt(10, 20)).map { nonBOLetters.random() }).toList()
+                (bobsWithAmount.map { it.first } + (1..Random.nextInt(10, 20)).map { nonBOLetters.random() }).toList()
                     .shuffled()
                     .joinToString(""),
-                bobsWithAmount.map { (_, x) -> x }.sum()
+                bobsWithAmount.sumOf { it.second }
             )
         }).dynamicTests { assertThat(numberOfBobs(s)).isEqualTo(expected) }
     }
